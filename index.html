@@ -3,147 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HoangKun - Ultimate Profile</title>
+    <title>HoangKun Pro</title>
     <style>
-        :root { --primary: #ffcc00; --bg: #0a0a0a; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; text-align: center; margin: 0; overflow: hidden; touch-action: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; text-align: center; margin: 0; overflow: hidden; touch-action: none; }
+        .card { background: #1e1e1e; max-width: 380px; margin: 15px auto; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .avatar { width: 100px; height: 100px; border-radius: 20px; border: 3px solid #ffcc00; }
         
-        /* Hiệu ứng hạt bay phía sau */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-
-        .card { background: rgba(30, 30, 30, 0.9); max-width: 400px; margin: 20px auto; padding: 20px; border-radius: 30px; border: 1px solid #333; backdrop-filter: blur(10px); }
-        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: 0 0 15px var(--primary); }
-
         .btn-social {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 10px; margin: 5px; color: white; text-decoration: none;
-            border-radius: 12px; font-weight: bold; width: 40%; transition: 0.3s; font-size: 14px;
+            display: inline-block; padding: 10px; margin: 5px; color: white; 
+            text-decoration: none; border-radius: 10px; font-weight: bold; width: 40%; font-size: 14px;
         }
-        .facebook { background: #1877F2; } .zalo { background: #0068FF; } .tiktok { background: #000; border: 1px solid #444; }
+        .fb { background: #1877F2; } .zl { background: #0068FF; } .tt { background: #000; border: 1px solid #444; }
 
-        #gameWrapper { position: relative; width: 100%; max-width: 320px; margin: 15px auto; border-radius: 20px; overflow: hidden; border: 2px solid var(--primary); touch-action: none; }
-        #gameCanvas { background: #000; display: block; width: 100%; touch-action: none; }
+        #gameWrapper { position: relative; width: 320px; height: 350px; margin: 15px auto; border-radius: 15px; overflow: hidden; border: 2px solid #ffcc00; }
+        #gameCanvas { background: #000; display: block; touch-action: none; }
         
         #gameOverlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
+            background: rgba(0,0,0,0.8); display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 10;
         }
-        .btn-game { background: var(--primary); border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .stats { display: flex; justify-content: space-around; font-size: 18px; font-weight: bold; margin: 10px 0; color: var(--primary); }
+        .btn-game { background: #ffcc00; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .stats { display: flex; justify-content: space-around; margin: 10px 0; font-weight: bold; color: #ffcc00; }
     </style>
 </head>
 <body>
-    <canvas id="bg-canvas"></canvas>
-
     <div class="card">
         <img src="g2.jpg.webp" class="avatar" alt="HoangKun">
-        <h2 style="margin: 10px 0;">HOANG KUN</h2>
+        <h2 style="margin: 10px 0;">HOANG KUN 👑</h2>
         
-        <div style="margin-bottom: 10px;">
-            <a href="https://www.tiktok.com/@hpdbox" class="btn-social tiktok">TikTok</a>
-            <a href="https://facebook.com/nvh12072006" class="btn-social facebook">Facebook</a>
-            <a href="https://zalo.me/84788265513" class="btn-social zalo">Zalo</a>
-        </div>
+        <a href="https://facebook.com/nvh12072006" class="btn-social fb">Facebook</a>
+        <a href="https://zalo.me/84788265513" class="btn-social zl">Zalo</a>
+        <a href="https://www.tiktok.com/@hpdbox" class="btn-social tt" style="width: 85%;">TikTok</a>
 
         <div class="stats">
-            <div>Điểm: <span id="scoreVal">0</span></div>
-            <div style="color: #00ffcc;">Kỷ lục: <span id="highScoreVal">0</span></div>
+            <div>Điểm: <span id="sc">0</span></div>
+            <div>Kỷ lục: <span id="hs">0</span></div>
         </div>
 
         <div id="gameWrapper">
             <canvas id="gameCanvas" width="320" height="350"></canvas>
             <div id="gameOverlay">
-                <h2 id="statusText" style="color: var(--primary);">SẴN SÀNG?</h2>
-                <button id="startBtn" class="btn-game">CHƠI NGAY</button>
+                <h2 id="msg" style="color:#ffcc00">SẴN SÀNG?</h2>
+                <button id="startBtn" class="btn-game">CHƠI LUÔN</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Starfield Background
-        const bgCanvas = document.getElementById('bg-canvas');
-        const bgCtx = bgCanvas.getContext('2d');
-        let stars = [];
-        function resize() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
-        window.onresize = resize; resize();
-        for(let i=0; i<80; i++) stars.push({x: Math.random()*bgCanvas.width, y: Math.random()*bgCanvas.height, s: Math.random()*2});
-        function animateBg() {
-            bgCtx.clearRect(0,0,bgCanvas.width, bgCanvas.height);
-            bgCtx.fillStyle = "white";
-            stars.forEach(s => { bgCtx.beginPath(); bgCtx.arc(s.x, s.y, s.s, 0, Math.PI*2); bgCtx.fill(); s.y += 0.5; if(s.y > bgCanvas.height) s.y = 0; });
-            requestAnimationFrame(animateBg);
-        }
-        animateBg();
+        const cvs = document.getElementById('gameCanvas');
+        const ctx = cvs.getContext('2d');
+        let score = 0, highScore = localStorage.getItem('hkhs') || 0, running = false;
+        document.getElementById('hs').innerText = highScore;
 
-        // Game Logic
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        let score = 0, highScore = localStorage.getItem('hoangHS') || 0, gameRunning = false;
-        document.getElementById('highScoreVal').innerText = highScore;
-
-        let basket = { x: 120, y: 320, w: 80, h: 12 };
+        let basket = { x: 120, y: 320, w: 80, h: 10 };
         let items = [];
 
-        function spawnItem() {
-            const rand = Math.random();
-            let type = rand > 0.9 ? 'gold' : (rand > 0.7 ? 'poison' : 'apple');
-            items.push({ x: Math.random()*290+15, y: -20, r: 10, speed: 3 + score/15, type });
+        function spawn() {
+            let type = Math.random() > 0.8 ? 'bad' : 'good';
+            items.push({ x: Math.random()*290+15, y: -20, r: 10, s: 3 + score/10, t: type });
         }
 
-        function update(e) {
-            let rect = canvas.getBoundingClientRect();
-            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            let x = (clientX - rect.left) * (canvas.width / rect.width);
+        function move(e) {
+            let rect = cvs.getBoundingClientRect();
+            let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
             basket.x = x - basket.w / 2;
             if(basket.x < 0) basket.x = 0;
-            if(basket.x > canvas.width - basket.w) basket.x = canvas.width - basket.w;
-            if(e.cancelable) e.preventDefault();
+            if(basket.x > cvs.width - basket.w) basket.x = cvs.width - basket.w;
         }
 
-        canvas.addEventListener('mousemove', update);
-        canvas.addEventListener('touchmove', update, { passive: false });
-        canvas.addEventListener('touchstart', update, { passive: false });
+        cvs.addEventListener('mousemove', move);
+        cvs.addEventListener('touchmove', (e) => { move(e); e.preventDefault(); }, { passive: false });
 
-        function draw() {
-            if(!gameRunning) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = var(--primary);
-            ctx.shadowBlur = 10; ctx.shadowColor = var(--primary);
+        function loop() {
+            if(!running) return;
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            
+            ctx.fillStyle = '#ffcc00';
             ctx.fillRect(basket.x, basket.y, basket.w, basket.h);
-            ctx.shadowBlur = 0;
 
-            items.forEach((item, i) => {
-                item.y += item.speed;
+            items.forEach((it, i) => {
+                it.y += it.s;
                 ctx.beginPath();
-                ctx.fillStyle = item.type === 'apple' ? '#ff4d4d' : (item.type === 'gold' ? '#ffd700' : '#9b59b6');
-                ctx.arc(item.x, item.y, item.r, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = it.t === 'good' ? '#ff4d4d' : '#9b59b6';
+                ctx.arc(it.x, it.y, it.r, 0, Math.PI*2); ctx.fill();
 
-                if(item.y + item.r > basket.y && item.x > basket.x && item.x < basket.x + basket.w) {
-                    if(item.type === 'poison') { gameRunning = false; gameOver(); }
-                    else { score += (item.type === 'gold' ? 10 : 1); items.splice(i, 1); }
-                } else if(item.y > canvas.height) {
-                    if(item.type === 'apple') { gameRunning = false; gameOver(); }
-                    else items.splice(i, 1);
+                if(it.y+it.r > basket.y && it.x > basket.x && it.x < basket.x+basket.w) {
+                    if(it.t === 'bad') { running = false; end(); }
+                    else { score++; items.splice(i,1); }
+                } else if(it.y > cvs.height) {
+                    if(it.t === 'good') { running = false; end(); }
+                    else items.splice(i,1);
                 }
             });
 
-            if(Math.random() < 0.03) spawnItem();
-            document.getElementById('scoreVal').innerText = score;
-            requestAnimationFrame(draw);
+            if(Math.random() < 0.03) spawn();
+            document.getElementById('sc').innerText = score;
+            requestAnimationFrame(loop);
         }
 
-        function gameOver() {
-            if(score > highScore) { highScore = score; localStorage.setItem('hoangHS', highScore); }
-            document.getElementById('highScoreVal').innerText = highScore;
-            document.getElementById('statusText').innerText = "ĐIỂM: " + score;
+        function end() {
+            if(score > highScore) { highScore = score; localStorage.setItem('hkhs', highScore); }
+            document.getElementById('hs').innerText = highScore;
+            document.getElementById('msg').innerText = "THUA RỒI: " + score;
             document.getElementById('gameOverlay').style.display = 'flex';
         }
 
         document.getElementById('startBtn').onclick = () => {
-            score = 0; items = []; gameRunning = true;
+            score = 0; items = []; running = true;
             document.getElementById('gameOverlay').style.display = 'none';
-            draw();
+            loop();
         };
     </script>
 </body>
