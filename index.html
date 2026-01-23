@@ -115,6 +115,79 @@
 <div onclick="togglePause()" style="position: fixed; top: 20px; right: 20px; z-index: 999; width: 45px; height: 45px; background: #8d6e63; border: 3px solid #3d251e; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; font-family: Arial;">||</div>
 
     <script>
+    
+    const c=document.getElementById("c");
+const ctx=c.getContext("2d");
+
+let run=false;
+const p={x:180,y:250,hp:100,lv:1};
+let mobs=[];
+let kills=0;
+
+function start(){
+  run=true;
+  mobs=[];
+  p.hp=100;p.lv=1;kills=0;
+  loop();
+}
+
+function spawn(){
+  mobs.push({
+    x:Math.random()*360,
+    y:-20,
+    hp:3
+  });
+}
+
+addEventListener("touchmove",e=>{
+  p.x=e.touches[0].clientX;
+  p.y=e.touches[0].clientY;
+});
+addEventListener("mousemove",e=>{
+  p.x=e.clientX;
+  p.y=e.clientY;
+});
+
+function loop(){
+  if(!run) return;
+  ctx.clearRect(0,0,360,500);
+
+  // player
+  ctx.fillStyle="yellow";
+  ctx.fillRect(p.x-10,p.y-10,20,20);
+
+  // mobs
+  ctx.fillStyle="red";
+  mobs.forEach((m,i)=>{
+    m.y+=1+p.lv*0.3;
+    ctx.fillRect(m.x-10,m.y-10,20,20);
+
+    // hit
+    if(Math.abs(m.x-p.x)<20 && Math.abs(m.y-p.y)<20){
+      p.hp-=1;
+      if(p.hp<=0){run=false;alert("Game Over");}
+    }
+
+    // auto kill
+    if(Math.abs(m.x-p.x)<40){
+      m.hp--;
+      if(m.hp<=0){
+        mobs.splice(i,1);
+        kills++;
+        if(kills%10===0) p.lv++;
+      }
+    }
+  });
+
+  if(Math.random()<0.03) spawn();
+
+  document.getElementById("hp").innerText=p.hp;
+  document.getElementById("lv").innerText=p.lv;
+
+  requestAnimationFrame(loop);
+}
+</script>
+    
     let isPaused = false;
 
 function togglePause() {
