@@ -6,6 +6,24 @@
     <title>NecesseGame Sinhton by HoangKun</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
+body, html {
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+#game-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none; /* 🔥 QUAN TRỌNG */
+}
+
+#lobby-container {
+  position: relative;
+  z-index: 10;
+}
+</style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'VT323', monospace; overflow: hidden; touch-action: none; }
         
