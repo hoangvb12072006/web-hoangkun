@@ -2,182 +2,157 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HoangKun - Pro Gamer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HoangKun - 2048 Neon</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); text-align: center; padding: 20px; margin: 0; min-height: 100vh; }
-        .card { background: white; max-width: 450px; margin: 20px auto; padding: 30px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        :root { --bg: #0f172a; --grid: #1e293b; --text: #f8fafc; }
+        body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; touch-action: none; }
+        .card { width: 90%; max-width: 400px; text-align: center; }
         
-        .avatar { width: 140px; height: 140px; object-fit: cover; border-radius: 25px; border: 4px solid #ffcc00; transition: 0.4s; }
-        .avatar:hover { transform: scale(1.1) rotate(5deg); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .score-box { background: var(--grid); padding: 10px 20px; border-radius: 10px; min-width: 80px; }
+        .score-box label { display: block; font-size: 10px; color: #94a3b8; }
+        .score-box span { font-weight: bold; font-size: 18px; }
 
-        .btn-social {
-            display: flex; align-items: center; justify-content: center;
-            padding: 12px; margin: 10px auto; color: white;
-            text-decoration: none; border-radius: 15px; font-weight: bold;
-            transition: 0.3s; width: 85%;
+        #game-board { 
+            background: var(--grid); border-radius: 10px; padding: 10px; 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+            position: relative; aspect-ratio: 1/1;
         }
-        .facebook { background: #1877F2; } .zalo { background: #0068FF; } .tiktok { background: #000000; }
-        .btn-social:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .cell { 
+            background: rgba(255,255,255,0.05); border-radius: 5px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 24px; font-weight: bold; aspect-ratio: 1/1;
+            transition: transform 0.1s, background 0.2s;
+        }
 
-        /* Style Game */
-        #gameWrapper { position: relative; width: 100%; max-width: 350px; margin: auto; overflow: hidden; border-radius: 20px; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        #gameCanvas { background: #1a1a2e; display: block; width: 100%; cursor: none; touch-action: none; }
-        
-        #gameOverlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; color: white; z-index: 10;
-        }
-        
-        .btn-game {
-            background: #ffcc00; border: none; padding: 12px 30px; 
-            border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 18px;
-            margin-top: 15px; box-shadow: 0 5px 0 #cca300; transition: 0.1s;
-        }
-        .btn-game:active { transform: translateY(4px); box-shadow: none; }
+        /* Màu sắc các số Neon */
+        .tile-2 { background: #334155; color: #fff; }
+        .tile-4 { background: #475569; color: #fff; }
+        .tile-8 { background: #f97316; box-shadow: 0 0 15px #f97316; }
+        .tile-16 { background: #ea580c; box-shadow: 0 0 15px #ea580c; }
+        .tile-32 { background: #ef4444; box-shadow: 0 0 15px #ef4444; }
+        .tile-64 { background: #dc2626; box-shadow: 0 0 15px #dc2626; }
+        .tile-128 { background: #eab308; box-shadow: 0 0 20px #eab308; font-size: 20px; }
+        .tile-256 { background: #fbbf24; box-shadow: 0 0 20px #fbbf24; font-size: 20px; }
+        .tile-512 { background: #22c55e; box-shadow: 0 0 20px #22c55e; font-size: 20px; }
+        .tile-1024 { background: #06b6d4; box-shadow: 0 0 25px #06b6d4; font-size: 16px; }
+        .tile-2048 { background: #d946ef; box-shadow: 0 0 30px #d946ef; font-size: 16px; }
 
-        .score-board { display: flex; justify-content: space-around; font-weight: bold; margin: 15px 0; }
-        .rank-tag { color: #ffcc00; font-size: 14px; margin-top: 5px; font-style: italic; }
-
-        /* Hiệu ứng rung màn hình */
-        .shake { animation: shake 0.2s; }
-        @keyframes shake {
-            0% { transform: translate(1px, 1px); }
-            20% { transform: translate(-2px, 0px); }
-            40% { transform: translate(2px, -1px); }
-            60% { transform: translate(-1px, 2px); }
-            100% { transform: translate(0, 0); }
-        }
+        .controls-hint { margin-top: 20px; color: #64748b; font-size: 13px; }
+        .btn-reset { background: #4facfe; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <img src="g2.jpg.webp" class="avatar" alt="G2 Esports">
-        <h1 style="margin: 10px 0 5px;">HoangKun 👑</h1>
-        <div id="rankDisplay" class="rank-tag">Danh hiệu: Gà Mới Nhú 🥚</div>
-        
-        <div style="margin: 15px 0;">
-            <a href="https://www.tiktok.com/@hpdbox" target="_blank" class="btn-social tiktok">🎵 TikTok @hpdbox</a>
-            <a href="https://facebook.com/nvh12072006" target="_blank" class="btn-social facebook">🔵 Facebook</a>
-            <a href="https://zalo.me/84788265513" target="_blank" class="btn-social zalo">📱 Zalo</a>
-        </div>
 
-        <div class="score-board">
-            <div style="color: #e67e22;">Điểm: <span id="scoreVal">0</span></div>
-            <div style="color: #27ae60;">Kỷ lục: <span id="highScoreVal">0</span></div>
-        </div>
-
-        <div id="gameWrapper">
-            <canvas id="gameCanvas" width="350" height="300"></canvas>
-            <div id="gameOverlay">
-                <h2 id="statusText" style="color: #ffcc00; margin-bottom: 5px;">SẴN SÀNG CHƯA?</h2>
-                <p id="finalScore" style="margin: 5px 0;"></p>
-                <button id="startBtn" class="btn-game">CHƠI LUÔN!</button>
-            </div>
+<div class="card">
+    <div class="header">
+        <h1 style="margin:0; color: #4facfe;">2048</h1>
+        <div style="display: flex; gap: 10px;">
+            <div class="score-box"><label>SCORE</label><span id="score">0</span></div>
+            <div class="score-box"><label>BEST</label><span id="best">0</span></div>
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const wrapper = document.getElementById('gameWrapper');
-        const overlay = document.getElementById('gameOverlay');
-        const startBtn = document.getElementById('startBtn');
-        const scoreEl = document.getElementById('scoreVal');
-        const highScoreEl = document.getElementById('highScoreVal');
-        const rankEl = document.getElementById('rankDisplay');
+    <div id="game-board"></div>
+    
+    <button class="btn-reset" onclick="initGame()">Chơi Lại</button>
+    <p class="controls-hint">Vuốt màn hình hoặc dùng phím mũi tên</p>
+</div>
 
-        let score = 0, highScore = localStorage.getItem('appleHighScore') || 0;
-        let gameRunning = false, appleColor = '#ff4d4d';
-        highScoreEl.innerText = highScore;
+<script>
+    let board = [];
+    let score = 0;
+    let best = localStorage.getItem('2048best') || 0;
+    document.getElementById('best').innerText = best;
 
-        let basket = { x: 140, y: 260, w: 80, h: 15 };
-        let apple = { x: 175, y: 0, r: 12, speed: 3 };
+    function initGame() {
+        board = Array(16).fill(0);
+        score = 0;
+        document.getElementById('score').innerText = 0;
+        addTile(); addTile();
+        render();
+    }
 
-        const ranks = [
-            { score: 0, name: "Gà Mới Nhú 🥚" },
-            { score: 5, name: "Tập Sự Hứng Táo 🍎" },
-            { score: 15, name: "Tay Nhặt Nhanh Nhẹn ⚡" },
-            { score: 30, name: "Cao Thủ Hái Quả 🏆" },
-            { score: 50, name: "Thánh Hứng Táo 👑" }
-        ];
-
-        function updateRank(s) {
-            let currentRank = ranks[0].name;
-            ranks.forEach(r => { if(s >= r.score) currentRank = r.name; });
-            rankEl.innerText = "Danh hiệu: " + currentRank;
+    function addTile() {
+        let empty = board.map((v, i) => v === 0 ? i : null).filter(v => v !== null);
+        if (empty.length > 0) {
+            board[empty[Math.floor(Math.random() * empty.length)]] = Math.random() < 0.9 ? 2 : 4;
         }
+    }
 
-        function draw() {
-            if (!gameRunning) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function render() {
+        const container = document.getElementById('game-board');
+        container.innerHTML = '';
+        board.forEach(val => {
+            let div = document.createElement('div');
+            div.className = `cell ${val ? 'tile-' + val : ''}`;
+            div.innerText = val ? val : '';
+            container.appendChild(div);
+        });
+    }
 
-            // Vẽ giỏ (Neon)
-            ctx.fillStyle = '#00d2ff';
-            ctx.shadowBlur = 15; ctx.shadowColor = '#00d2ff';
-            ctx.beginPath(); ctx.roundRect(basket.x, basket.y, basket.w, basket.h, 10); ctx.fill();
-            ctx.shadowBlur = 0;
-
-            // Vẽ táo
-            ctx.fillStyle = appleColor;
-            ctx.beginPath(); ctx.arc(apple.x, apple.y, apple.r, 0, Math.PI * 2); ctx.fill();
-            
-            apple.y += apple.speed;
-
-            if (apple.y > canvas.height) { gameOver(); return; }
-
-            if (apple.y + apple.r > basket.y && apple.x > basket.x && apple.x < basket.x + basket.w) {
-                score++;
-                scoreEl.innerText = score;
-                updateRank(score);
-                apple.y = 0;
-                apple.x = 20 + Math.random() * (canvas.width - 40);
-                apple.speed += 0.25;
-                appleColor = `hsl(${Math.random() * 360}, 70%, 60%)`; // Đổi màu táo ngẫu nhiên
-                
-                // Hiệu ứng rung màn hình khi trúng
-                wrapper.classList.add('shake');
-                setTimeout(() => wrapper.classList.remove('shake'), 200);
+    function slide(row) {
+        let arr = row.filter(v => v);
+        for (let i = 0; i < arr.length - 1; i++) {
+            if (arr[i] === arr[i+1]) {
+                arr[i] *= 2;
+                score += arr[i];
+                arr.splice(i+1, 1);
             }
-            requestAnimationFrame(draw);
         }
+        while (arr.length < 4) arr.push(0);
+        return arr;
+    }
 
-        function startGame() {
-            score = 0; apple.speed = 3.5; apple.y = 0;
-            scoreEl.innerText = "0"; updateRank(0);
-            gameRunning = true; overlay.style.display = 'none';
-            draw();
-        }
-
-        function gameOver() {
-            gameRunning = false;
-            if (score > highScore) {
-                highScore = score;
-                localStorage.setItem('appleHighScore', highScore);
-                highScoreEl.innerText = highScore;
+    function move(dir) {
+        let oldBoard = [...board];
+        for (let i = 0; i < 4; i++) {
+            let row = [];
+            for (let j = 0; j < 4; j++) {
+                if (dir === 'left') row.push(board[i * 4 + j]);
+                if (dir === 'right') row.push(board[i * 4 + (3 - j)]);
+                if (dir === 'up') row.push(board[j * 4 + i]);
+                if (dir === 'down') row.push(board[(3 - j) * 4 + i]);
             }
-            document.getElementById('statusText').innerText = "THUA RỒI CƯNG!";
-            document.getElementById('finalScore').innerText = "Điểm của bạn: " + score;
-            startBtn.innerText = "PHỤC THÙ";
-            overlay.style.display = 'flex';
+            let res = slide(row);
+            for (let j = 0; j < 4; j++) {
+                if (dir === 'left') board[i * 4 + j] = res[j];
+                if (dir === 'right') board[i * 4 + (3 - j)] = res[j];
+                if (dir === 'up') board[j * 4 + i] = res[j];
+                if (dir === 'down') board[(3 - j) * 4 + i] = res[j];
+            }
         }
-
-        function updatePos(clientX) {
-            if (!gameRunning) return;
-            let rect = canvas.getBoundingClientRect();
-            let mouseX = (clientX - rect.left) * (canvas.width / rect.width);
-            basket.x = mouseX - basket.w / 2;
-            if (basket.x < 0) basket.x = 0;
-            if (basket.x > canvas.width - basket.w) basket.x = canvas.width - basket.w;
+        if (JSON.stringify(oldBoard) !== JSON.stringify(board)) {
+            addTile();
+            document.getElementById('score').innerText = score;
+            if (score > best) {
+                best = score;
+                localStorage.setItem('2048best', best);
+                document.getElementById('best').innerText = best;
+            }
+            render();
         }
+    }
 
-        startBtn.addEventListener('click', startGame);
-        canvas.addEventListener('mousemove', (e) => updatePos(e.clientX));
-        canvas.addEventListener('touchmove', (e) => {
-            updatePos(e.touches[0].clientX);
-            e.preventDefault();
-        }, { passive: false });
-    </script>
+    window.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') move('left');
+        if (e.key === 'ArrowRight') move('right');
+        if (e.key === 'ArrowUp') move('up');
+        if (e.key === 'ArrowDown') move('down');
+    });
+
+    // Touch support
+    let ts;
+    window.addEventListener('touchstart', e => { ts = e.touches[0]; });
+    window.addEventListener('touchend', e => {
+        let te = e.changedTouches[0];
+        let dx = te.clientX - ts.clientX, dy = te.clientY - ts.clientY;
+        if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left');
+        else move(dy > 0 ? 'down' : 'up');
+    });
+
+    initGame();
+</script>
 </body>
 </html>
