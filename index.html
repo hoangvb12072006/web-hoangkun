@@ -51,6 +51,23 @@
         }
 
         .menu-options { position: absolute; bottom: 0; right: 0; display: flex; flex-direction: column; gap: 15px; }
+        
+        /* PHẦN MỚI THÊM: Ô NHẬP TÊN */
+        .name-input {
+            width: 220px;
+            height: 45px;
+            background: #3d251e;
+            border: 4px solid #8d6e63;
+            color: #f4e4bc;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            padding: 0 10px;
+            outline: none;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .name-input::placeholder { color: #8d6e63; }
+
         .wood-button {
             width: 220px;
             height: 65px;
@@ -70,9 +87,8 @@
         .wood-button:hover { background: #a1887f; transform: translateY(-3px); }
         .wood-button:active { transform: translateY(5px); border-bottom: 2px solid #2d1b16; }
 
-        /* PHẦN ĐANG KẾT NỐI (MÀN HÌNH CHỜ) */
         #loading-overlay {
-            display: none; /* Mặc định ẩn đi */
+            display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -92,7 +108,6 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Vòng xoay pixel */
         .pixel-spinner {
             width: 60px;
             height: 60px;
@@ -129,22 +144,32 @@
             </div>
 
             <div class="menu-options">
+                <input type="text" id="charName" class="name-input" placeholder="TÊN NHÂN VẬT..." maxlength="12">
+                
                 <div class="wood-button" onclick="connectWorld()">CHƠI MỚI</div>
                 <div class="wood-button">TIẾP TỤC</div>
                 <div class="wood-button">CÀI ĐẶT</div>
-                <div class="wood-button" onclick="window.close()">THOÁT</div>
+                <div class="wood-button" onclick="alert('Không thể thoát tự động trên trình duyệt!')">THOÁT</div>
             </div>
         </div>
     </div>
 
     <script>
         function connectWorld() {
+            // Lấy tên từ ô input
+            var name = document.getElementById('charName').value;
+            
+            // Nếu không nhập gì thì lấy tên mặc định
+            if (name.trim() === "") {
+                name = "Hành Giả";
+            }
+
             // Hiện màn hình chờ
             document.getElementById('loading-overlay').style.display = 'flex';
             
-            // Giả lập sau 3 giây kết nối xong (sau này bạn thay bằng code vào game thật)
             setTimeout(() => {
-                alert("Kết nối thành công! Chào mừng HoangKun đến với thế giới mới.");
+                // Hiển thị tên đã nhập vào câu chào
+                alert("Kết nối thành công! Chào mừng " + name + " đến với thế giới mới.");
                 document.getElementById('loading-overlay').style.display = 'none';
             }, 3000);
         }
