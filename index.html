@@ -3,116 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ | My Website</title>
+    <title>CyberWorld | Trang Chủ Game</title>
     <style>
-        /* CSS Reset cơ bản */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        /* Gaming Theme Colors */
+        :root {
+            --primary-color: #ff0055; /* Neon Pink */
+            --secondary-color: #00f2ff; /* Cyber Blue */
+            --bg-dark: #0a0b10;
+            --card-bg: #161b22;
+        }
 
-        /* Navigation */
-        nav {
-            background: #2c3e50;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Orbitron', sans-serif; /* Bạn có thể thêm font này từ Google Fonts */
+            background-color: var(--bg-dark); 
             color: white;
-            padding: 1rem 5%;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            padding: 20px 8%;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid var(--primary-color);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
         }
-        nav .logo { font-size: 1.5rem; font-weight: bold; }
+
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--secondary-color); }
+
         nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 20px; }
-        nav ul li a { color: white; text-decoration: none; transition: 0.3s; }
-        nav ul li a:hover { color: #3498db; }
+        nav ul li { margin-left: 30px; }
+        nav ul li a { 
+            text-decoration: none; 
+            color: white; 
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover { color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1350&q=80');
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), var(--bg-dark)),
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
-            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
             text-align: center;
-            padding: 0 20px;
         }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; }
-        .btn {
-            background: #3498db;
+
+        .hero h1 { 
+            font-size: 5rem; 
+            text-transform: uppercase; 
+            margin-bottom: 10px;
+            font-style: italic;
+            -webkit-text-stroke: 1px var(--primary-color);
+            color: transparent;
+            background: linear-gradient(var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 5px; }
+
+        .btn-play {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: var(--primary-color);
             color: white;
-            padding: 12px 30px;
             text-decoration: none;
-            border-radius: 5px;
             font-weight: bold;
-            transition: 0.3s;
+            text-transform: uppercase;
+            border-radius: 5px;
+            box-shadow: 0 0 20px var(--primary-color);
+            transition: 0.4s;
         }
-        .btn:hover { background: #2980b9; }
 
-        /* Services Section */
-        .services { padding: 4rem 5%; text-align: center; }
-        .services h2 { margin-bottom: 2rem; font-size: 2rem; }
-        .grid {
+        .btn-play:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--primary-color);
+        }
+
+        /* News/Characters Section */
+        .latest-news { padding: 100px 8%; }
+        .latest-news h2 { text-align: center; margin-bottom: 50px; font-size: 2.5rem; border-left: 5px solid var(--secondary-color); padding-left: 15px; }
+
+        .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
-        .card {
-            padding: 30px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #333;
             transition: 0.3s;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
-        /* Footer */
-        footer { background: #2c3e50; color: white; text-align: center; padding: 2rem; margin-top: 2rem; }
+        .game-card img { width: 100%; height: 200px; object-fit: cover; }
+        .game-card-content { padding: 20px; }
+        .game-card h3 { color: var(--secondary-color); margin-bottom: 10px; }
+        .game-card:hover { border-color: var(--secondary-color); transform: translateY(-10px); }
+
+        footer { text-align: center; padding: 50px; background: #050505; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">GEMINI CODE</div>
+        <div class="logo">CYBER WORLD</div>
         <ul>
             <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Dịch vụ</a></li>
-            <li><a href="#">Sản phẩm</a></li>
-            <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Tướng</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Nạp thẻ</a></li>
+            <li><a href="#">Tải Game</a></li>
         </ul>
     </nav>
 
     <header class="hero">
-        <h1>Sáng tạo không giới hạn</h1>
-        <p>Chào mừng bạn đến với trang chủ của tôi. Nơi chia sẻ những giải pháp lập trình hiện đại và tối ưu nhất.</p>
-        <a href="#" class="btn">Khám phá ngay</a>
+        <h1>BEYOND REALITY</h1>
+        <p>CHIẾN ĐẤU HOẶC LÀ CHẾT</p>
+        <a href="#" class="btn-play">Chơi ngay miễn phí</a>
     </header>
 
-    <section class="services">
-        <h2>Dịch vụ của chúng tôi</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Thiết kế Web</h3>
-                <p>Giao diện đẹp, mượt mà và tương thích với mọi thiết bị di động.</p>
+    <section class="latest-news">
+        <h2>TIN MỚI NHẤT</h2>
+        <div class="game-grid">
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80" alt="News 1">
+                <div class="game-card-content">
+                    <h3>Cập nhật phiên bản 2.0</h3>
+                    <p>Khám phá bản đồ sa mạc mới và hệ thống vũ khí tối tân.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>Lập trình App</h3>
-                <p>Xây dựng ứng dụng mạnh mẽ trên nền tảng iOS và Android.</p>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="News 2">
+                <div class="game-card-content">
+                    <h3>Giải đấu vô địch thế giới</h3>
+                    <p>Đăng ký ngay để nhận giải thưởng lên đến 1 tỷ đồng.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>Tối ưu SEO</h3>
-                <p>Đưa trang web của bạn lên top đầu công cụ tìm kiếm một cách tự nhiên.</p>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&w=500&q=80" alt="News 3">
+                <div class="game-card-content">
+                    <h3>Tướng mới: Shadow</h3>
+                    <p>Kẻ ẩn mình trong bóng tối với kỹ năng ám sát kinh hoàng.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Bản quyền thuộc về Gemini Code. All rights reserved.</p>
+        <p>&copy; 2024 CYBERWORLD STUDIO. All Rights Reserved.</p>
     </footer>
 
 </body>
