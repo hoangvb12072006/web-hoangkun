@@ -8,7 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #0c0c0c;
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,37 +16,37 @@
             font-family: 'VT323', monospace;
         }
 
-        /* KHUNG CHÍNH */
+        /* KHUNG CHÍNH - DÙNG ẢNH BẠN CHỌN */
         #lobby-container {
             width: 900px;
             height: 600px;
             position: relative;
-            border: 6px solid #2d1b16;
-            /* Thay link ảnh nền pixel art bền vững hơn */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('https://images.squarespace-cdn.com/content/v1/5528253ce4b02302396118d0/1487627441584-O69R5MOPSTX267G2FMBQ/Pixel+Art+Forest+Evening.png');
+            border: 6px solid #4a2e2a;
+            /* Thay thế bằng link ảnh ngôi nhà gỗ pixel bạn đã gửi */
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                        url('https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/05/pixels-game-1.jpg');
             background-size: cover;
             background-position: center;
             image-rendering: pixelated;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 0 0 40px rgba(0,0,0,0.9);
         }
 
         /* TIÊU ĐỀ GÓC TRÁI */
         .header {
             position: absolute;
-            top: 30px;
-            left: 35px;
-            color: #f4e4bc;
+            top: 25px;
+            left: 30px;
+            color: #fff;
             text-shadow: 3px 3px 0px #000;
         }
-        .header h1 { font-size: 3.2rem; letter-spacing: 1px; }
-        .header p { font-size: 1.6rem; color: #d9c5a3; margin-top: -5px; }
+        .header h1 { font-size: 3.5rem; letter-spacing: 2px; }
+        .header p { font-size: 1.8rem; color: #f4e4bc; margin-top: -5px; }
 
-        /* BẢNG CHỈ SỐ GÓC PHẢI - RESET VỀ 0 */
+        /* BẢNG CHỈ SỐ GÓC PHẢI - GIÁ TRỊ 0 */
         .stats-area {
             position: absolute;
-            top: 30px;
-            right: 35px;
+            top: 25px;
+            right: 30px;
             display: flex;
             gap: 15px;
         }
@@ -55,19 +55,19 @@
             border: 3px solid #3d251e;
             padding: 5px 15px;
             color: #f4e4bc;
-            font-size: 1.6rem;
-            box-shadow: 3px 3px 0px #000;
+            font-size: 1.8rem;
+            box-shadow: 4px 4px 0px #000;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         .diamond-plate { border-color: #1a237e; }
 
-        /* NHÓM NÚT BẤM GỖ BÊN PHẢI */
+        /* MENU NÚT BẤM DẠNG GỖ BÊN PHẢI */
         .menu-options {
             position: absolute;
             bottom: 40px;
-            right: 35px;
+            right: 30px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -80,7 +80,7 @@
             border-bottom: 7px solid #2d1b16;
             color: #f4e4bc;
             font-family: 'VT323', monospace;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             text-shadow: 2px 2px 0px #000;
             display: flex;
@@ -90,35 +90,28 @@
         }
         .wood-button:hover {
             background: #a1887f;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .wood-button:active {
-            transform: translateY(3px);
+            transform: translateY(4px);
             border-bottom: 2px solid #2d1b16;
         }
 
-        /* ÁNH SÁNG LỬA TRẠI GIẢ LẬP */
-        .fire-glow {
+        /* HIỆU ỨNG NHÂN VẬT (TÙY CHỌN) */
+        .character-overlay {
             position: absolute;
-            bottom: 30%;
-            left: 45%;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(255,100,0,0.3) 0%, rgba(0,0,0,0) 70%);
-            animation: flicker 0.15s infinite alternate;
-        }
-
-        @keyframes flicker {
-            from { opacity: 0.7; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.1); }
+            bottom: 20%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
     <div id="lobby-container">
-        <div class="fire-glow"></div>
-
         <div class="header">
             <h1>NECESSEGAME SINH TỒN</h1>
             <p>by HoangKun</p>
@@ -130,7 +123,7 @@
         </div>
 
         <div class="menu-options">
-            <div class="wood-button" onclick="alert('Khởi tạo thế giới...')">CHƠI MỚI</div>
+            <div class="wood-button" onclick="alert('Khởi tạo thế giới HoangKun...')">CHƠI MỚI</div>
             <div class="wood-button">TIẾP TỤC</div>
             <div class="wood-button">CÀI ĐẶT</div>
             <div class="wood-button" onclick="window.close()">THOÁT</div>
