@@ -115,6 +115,33 @@
 <div onclick="togglePause()" style="position: fixed; top: 20px; right: 20px; z-index: 999; width: 45px; height: 45px; background: #8d6e63; border: 3px solid #3d251e; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; font-family: Arial;">||</div>
 
     <script>
+        function startGame() {
+    console.log("START GAME");
+
+    // Ẩn Sảnh
+    document.getElementById("lobby-container").style.display = "none";
+
+    // Hiện canvas game
+    canvas = document.getElementById("game-canvas");
+    canvas.style.display = "block";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Cho phép game chạy
+    isGameRunning = true;
+
+    // Vị trí player
+    player.x = canvas.width / 2 - player.size / 2;
+    player.y = canvas.height / 2 - player.size / 2;
+    player.worldX = 500;
+    player.worldY = 500;
+
+    // Tạo map đơn giản
+    generateWorld();
+
+    // Bắt đầu vòng lặp
+    gameLoop();
+}
     let isPaused = false;
 
 function togglePause() {
