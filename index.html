@@ -2,190 +2,231 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NecesseGame Sinhton by HoangKun</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
-        /* --- GIỮ NGUYÊN CSS CŨ CỦA BẠN --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; }
-        body { background-color: #000; font-family: 'VT323', monospace; overflow: hidden; height: 100vh; touch-action: none; }
+        /* --- GIỮ NGUYÊN TOÀN BỘ CSS GIAO DIỆN CŨ CỦA BẠN --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+        }
+
         #lobby-container {
-            width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/11/pixels-game-thumb.jpg');
-            background-size: cover; background-position: center; image-rendering: pixelated;
-            display: flex; justify-content: center; align-items: center; z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            position: fixed; /* Đổi sang fixed để ẩn/hiện dễ dàng */
+            top: 0; left: 0;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
+                        url('https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/11/pixels-game-thumb.jpg');
+            background-size: cover;
+            background-position: center;
+            image-rendering: pixelated;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100; /* Nằm trên cùng */
         }
+
         .content-area { width: 90%; height: 85%; position: relative; max-width: 1200px; }
+
         .header { position: absolute; top: 0; left: 0; color: #fff; text-shadow: 4px 4px 0px #000; }
-        .header h1 { font-size: clamp(2rem, 8vw, 4rem); }
-        .menu-options { position: absolute; bottom: 0; right: 0; display: flex; flex-direction: column; gap: 10px; }
-        .name-input { width: 200px; height: 40px; background: #3d251e; border: 4px solid #8d6e63; color: #f4e4bc; font-family: 'VT323'; font-size: 1.2rem; text-align: center; outline: none; }
-        .wood-button { width: 200px; height: 55px; background: #8d6e63; border: 4px solid #5d4037; border-bottom: 6px solid #2d1b16; color: #f4e4bc; font-size: 1.8rem; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .header h1 { font-size: 4rem; letter-spacing: 2px; }
+        .header p { font-size: 2rem; color: #f4e4bc; }
 
-        #game-canvas { display: none; background-color: #3a5a40; }
-
-        #joystick-container {
-            display: none; position: fixed; bottom: 40px; left: 40px;
-            width: 120px; height: 120px; background: rgba(255,255,255,0.2);
-            border-radius: 50%; z-index: 20; touch-action: none;
-        }
-        #joystick-knob {
-            position: absolute; top: 50%; left: 50%; width: 50px; height: 50px;
-            background: rgba(255,255,255,0.5); border-radius: 50%;
-            transform: translate(-50%, -50%);
+        .stats-area { position: absolute; top: 0; right: 0; display: flex; gap: 20px; }
+        .stat-box {
+            background: rgba(93, 64, 55, 0.9);
+            border: 4px solid #3d251e;
+            padding: 8px 20px;
+            color: #f4e4bc;
+            font-size: 2rem;
+            box-shadow: 5px 5px 0px #000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* --- PHẦN MỚI: NÚT HÀNH ĐỘNG (ACTION BUTTON) --- */
-        #action-btn {
-            display: none; position: fixed; bottom: 50px; right: 50px;
-            width: 80px; height: 80px; background: #8d6e63;
-            border: 4px solid #5d4037; border-bottom: 8px solid #2d1b16;
-            border-radius: 50%; z-index: 20; color: #f4e4bc;
-            font-family: 'VT323'; font-size: 1.5rem;
-            display: none; /* Chỉ hiện khi vào game */
-            justify-content: center; align-items: center;
+        .menu-options { position: absolute; bottom: 0; right: 0; display: flex; flex-direction: column; gap: 15px; }
+        
+        .name-input {
+            width: 220px; height: 45px; background: #3d251e; border: 4px solid #8d6e63;
+            color: #f4e4bc; font-family: 'VT323'; font-size: 1.5rem; text-align: center; outline: none; margin-bottom: 5px;
+        }
+
+        .wood-button {
+            width: 220px;
+            height: 65px;
+            background: #8d6e63;
+            border: 4px solid #5d4037;
+            border-bottom: 8px solid #2d1b16;
+            color: #f4e4bc;
+            font-family: 'VT323', monospace;
+            font-size: 2.2rem;
+            cursor: pointer;
             text-shadow: 2px 2px 0px #000;
-            active { transform: translateY(4px); border-bottom: 2px solid #2d1b16; }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.1s;
         }
+        .wood-button:hover { background: #a1887f; transform: translateY(-3px); }
+        .wood-button:active { transform: translateY(5px); border-bottom: 2px solid #2d1b16; }
 
+        /* MÀN HÌNH CHỜ */
         #loading-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.9); z-index: 100; flex-direction: column; justify-content: center; align-items: center; color: #f4e4bc;
+            background: rgba(0, 0, 0, 0.85); z-index: 999; flex-direction: column; justify-content: center; align-items: center; color: #f4e4bc;
         }
-        .pixel-spinner { width: 50px; height: 50px; border: 6px solid #5d4037; border-top: 6px solid #f4e4bc; animation: spin 1s steps(8) infinite; }
+        .pixel-spinner { width: 60px; height: 60px; border: 8px solid #5d4037; border-top: 8px solid #f4e4bc; animation: spin 1s steps(8) infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- PHẦN BỔ SUNG CHO GAME (KHÔNG LÀM HỎNG GIAO DIỆN CŨ) --- */
+        #game-canvas { display: none; background: #2d6a4f; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; }
+        
+        #ui-controls { display: none; position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; z-index: 50; pointer-events: none; }
+        .joystick-base { pointer-events: auto; position: absolute; bottom: 40px; left: 40px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 50%; }
+        .joystick-knob { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: rgba(255,255,255,0.5); border-radius: 50%; transform: translate(-50%, -50%); }
+        .action-circle { pointer-events: auto; position: absolute; bottom: 50px; right: 50px; width: 80px; height: 80px; background: #8d6e63; border: 4px solid #5d4037; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #f4e4bc; font-size: 1.5rem; box-shadow: 0 6px 0 #2d1b16; }
+        .action-circle:active { transform: translateY(4px); box-shadow: 0 2px 0 #2d1b16; }
     </style>
 </head>
-<body onclick="initAudio()">
+<body onclick="startMusic()">
 
     <audio id="bgMusic" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"></audio>
 
     <div id="lobby-container">
-        <div id="loading-overlay"><div class="pixel-spinner"></div></div>
+        <div id="loading-overlay">
+            <div class="pixel-spinner"></div>
+            <div style="font-size: 3rem; margin-top: 20px;">ĐANG KẾT NỐI...</div>
+        </div>
+
         <div class="content-area">
-            <div class="header"><h1>NECESSE SINH TỒN</h1><p>by HoangKun</p></div>
+            <div class="header">
+                <h1>NECESSEGAME SINH TỒN</h1>
+                <p>by HoangKun</p>
+            </div>
+
+            <div class="stats-area">
+                <div class="stat-box">GOLD: <span>0</span></div>
+                <div class="stat-box" style="border-color: #1a237e;">💎: <span>0</span></div>
+            </div>
+
             <div class="menu-options">
-                <input type="text" id="charName" class="name-input" placeholder="TÊN..." maxlength="10">
+                <input type="text" id="charName" class="name-input" placeholder="TÊN NHÂN VẬT..." maxlength="12">
                 <div class="wood-button" onclick="startGame()">CHƠI MỚI</div>
+                <div class="wood-button">TIẾP TỤC</div>
+                <div class="wood-button">CÀI ĐẶT</div>
+                <div class="wood-button">THOÁT</div>
             </div>
         </div>
     </div>
 
     <canvas id="game-canvas"></canvas>
-
-    <div id="joystick-container"><div id="joystick-knob"></div></div>
-
-    <div id="action-btn" ontouchstart="playerAction()" onclick="playerAction()">HIT</div>
+    <div id="ui-controls">
+        <div class="joystick-base" id="joyBase"><div class="joystick-knob" id="joyKnob"></div></div>
+        <div class="action-circle" id="hitBtn" onmousedown="doAction()" ontouchstart="doAction()">HIT</div>
+    </div>
 
     <script>
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
-        const joystick = document.getElementById('joystick-container');
-        const knob = document.getElementById('joystick-knob');
-        const actionBtn = document.getElementById('action-btn');
-        
-        let gameRunning = false;
-        let playerName = "Hành Giả";
-        let player = { x: 100, y: 100, size: 30, speed: 4, isAttacking: false };
-        let moveState = { x: 0, y: 0 };
-        const keys = {};
+        const lobby = document.getElementById('lobby-container');
+        const loader = document.getElementById('loading-overlay');
+        const ui = document.getElementById('ui-controls');
 
-        function initAudio() { document.getElementById('bgMusic').play().catch(()=>{}); }
+        let player = { x: 0, y: 0, size: 40, speed: 5, name: "", color: '#e67e22', isHit: false };
+        let isRunning = false;
+        let keys = {};
+        let moveVec = { x: 0, y: 0 };
 
+        function startMusic() { document.getElementById('bgMusic').play().catch(()=>{}); }
+
+        // BỔ SUNG: HÀM CHUYỂN CẢNH
         function startGame() {
-            playerName = document.getElementById('charName').value || "Hành Giả";
-            document.getElementById('loading-overlay').style.display = 'flex';
+            player.name = document.getElementById('charName').value || "Hành Giả";
+            loader.style.display = 'flex';
+            
             setTimeout(() => {
-                document.getElementById('lobby-container').style.display = 'none';
-                document.getElementById('loading-overlay').style.display = 'none';
+                lobby.style.display = 'none';
+                loader.style.display = 'none';
                 canvas.style.display = 'block';
+                ui.style.display = 'block'; // Hiện nút di chuyển/đánh
                 
-                // Hiện nút điều khiển nếu là Mobile
-                if ('ontouchstart' in window) {
-                    joystick.style.display = 'block';
-                    actionBtn.style.display = 'flex';
-                }
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                player.x = canvas.width / 2;
+                player.y = canvas.height / 2;
                 
-                resize();
-                gameRunning = true;
-                requestAnimationFrame(gameLoop);
-            }, 1500);
+                isRunning = true;
+                requestAnimationFrame(loop);
+            }, 2000);
         }
 
-        // --- HÀNH ĐỘNG TẤN CÔNG / TƯƠNG TÁC ---
-        function playerAction() {
-            if (player.isAttacking) return;
-            player.isAttacking = true;
-            // Hiệu ứng tạm thời: Đổi màu khi đánh
-            setTimeout(() => { player.isAttacking = false; }, 200);
+        function doAction() {
+            player.isHit = true;
+            setTimeout(() => player.isHit = false, 150);
         }
 
-        // ĐIỀU KHIỂN BÀN PHÍM (PC)
-        window.addEventListener('keydown', e => {
-            keys[e.code] = true;
-            if(e.code === 'Space') playerAction(); // Phím Space để đánh trên PC
-        });
+        // ĐIỀU KHIỂN
+        window.addEventListener('keydown', e => keys[e.code] = true);
         window.addEventListener('keyup', e => keys[e.code] = false);
 
-        // ĐIỀU KHIỂN JOYSTICK (MOBILE)
+        // JOYSTICK LOGIC (CHO ĐIỆN THOẠI)
         let stickActive = false;
-        joystick.addEventListener('touchstart', e => stickActive = true);
+        const joyBase = document.getElementById('joyBase');
+        const joyKnob = document.getElementById('joyKnob');
+
+        joyBase.addEventListener('touchstart', () => stickActive = true);
         window.addEventListener('touchmove', e => {
             if (!stickActive) return;
-            let touch = e.touches[0];
-            let rect = joystick.getBoundingClientRect();
-            let centerX = rect.left + rect.width/2;
-            let centerY = rect.top + rect.height/2;
-            let dx = touch.clientX - centerX;
-            let dy = touch.clientY - centerY;
-            let dist = Math.sqrt(dx*dx + dy*dy);
-            let maxDist = rect.width / 2;
-            if (dist > maxDist) { dx *= maxDist/dist; dy *= maxDist/dist; }
-            knob.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-            moveState.x = dx / maxDist;
-            moveState.y = dy / maxDist;
+            let t = e.touches[0];
+            let r = joyBase.getBoundingClientRect();
+            let dx = t.clientX - (r.left + 60);
+            let dy = t.clientY - (r.top + 60);
+            let d = Math.min(Math.sqrt(dx*dx+dy*dy), 60);
+            let ang = Math.atan2(dy, dx);
+            moveVec.x = Math.cos(ang) * (d/60);
+            moveVec.y = Math.sin(ang) * (d/60);
+            joyKnob.style.transform = `translate(calc(-50% + ${Math.cos(ang)*d}px), calc(-50% + ${Math.sin(ang)*d}px))`;
         });
         window.addEventListener('touchend', () => {
             stickActive = false;
-            knob.style.transform = `translate(-50%, -50%)`;
-            moveState = { x: 0, y: 0 };
+            moveVec = {x:0, y:0};
+            joyKnob.style.transform = 'translate(-50%, -50%)';
         });
 
-        function update() {
-            if (!gameRunning) return;
-            player.x += moveState.x * player.speed;
-            player.y += moveState.y * player.speed;
-            if (keys['KeyW'] || keys['ArrowUp']) player.y -= player.speed;
-            if (keys['KeyS'] || keys['ArrowDown']) player.y += player.speed;
-            if (keys['KeyA'] || keys['ArrowLeft']) player.x -= player.speed;
-            if (keys['KeyD'] || keys['ArrowRight']) player.x += player.speed;
-        }
+        function loop() {
+            if(!isRunning) return;
+            
+            // Di chuyển
+            if(keys['KeyW']) player.y -= player.speed;
+            if(keys['KeyS']) player.y += player.speed;
+            if(keys['KeyA']) player.x -= player.speed;
+            if(keys['KeyD']) player.x += player.speed;
+            player.x += moveVec.x * player.speed;
+            player.y += moveVec.y * player.speed;
 
-        function draw() {
+            // Vẽ
             ctx.fillStyle = '#2d6a4f';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Vẽ nhân vật (Đổi màu sang đỏ khi đang nhấn đánh)
-            ctx.fillStyle = player.isAttacking ? '#ff0000' : '#e67e22';
+            ctx.fillStyle = player.isHit ? 'red' : player.color;
             ctx.fillRect(player.x, player.y, player.size, player.size);
             
-            ctx.fillStyle = '#fff';
-            ctx.font = '20px VT323';
+            ctx.fillStyle = 'white';
+            ctx.font = '24px VT323';
             ctx.textAlign = 'center';
-            ctx.fillText(playerName, player.x + player.size/2, player.y - 10);
+            ctx.fillText(player.name, player.x + 20, player.y - 10);
+            
+            requestAnimationFrame(loop);
         }
-
-        function gameLoop() {
-            update(); draw();
-            if (gameRunning) requestAnimationFrame(gameLoop);
-        }
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
     </script>
 </body>
 </html>
