@@ -17,78 +17,80 @@
             overflow: hidden;
         }
 
-        /* KHUNG CHÍNH */
+        /* KHUNG CHÍNH BAO PHỦ TOÀN MÀN HÌNH */
         #lobby-container {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             position: relative;
-            /* Sử dụng link ảnh ngôi nhà gỗ bạn đã chọn */
+            /* SỬ DỤNG LINK ẢNH BẠN GỬI */
             background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
-                        url('https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/05/pixels-game-1.jpg');
+                        url('https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/11/pixels-game-thumb.jpg');
             background-size: cover;
             background-position: center;
-            image-rendering: pixelated;
+            image-rendering: pixelated; /* Giữ nét cho ảnh pixel */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* KHUNG NỘI DUNG */
-        .content-box {
-            width: 900px;
-            height: 600px;
+        /* VÙNG NỘI DUNG GIỚI HẠN ĐỂ CĂN CHỈNH */
+        .content-area {
+            width: 90%;
+            height: 85%;
             position: relative;
+            max-width: 1200px;
         }
 
         /* TIÊU ĐỀ GÓC TRÁI */
         .header {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 0;
+            left: 0;
             color: #fff;
-            text-shadow: 3px 3px 0px #000;
+            text-shadow: 4px 4px 0px #000;
         }
-        .header h1 { font-size: 3.5rem; letter-spacing: 2px; }
-        .header p { font-size: 1.8rem; color: #f4e4bc; margin-top: -5px; }
+        .header h1 { font-size: 4rem; letter-spacing: 2px; line-height: 1; }
+        .header p { font-size: 2rem; color: #f4e4bc; margin-top: 5px; }
 
-        /* CHỈ SỐ GÓC PHẢI - RESET VỀ 0 */
-        .stats-group {
+        /* BẢNG CHỈ SỐ GÓC PHẢI - RESET VỀ 0 */
+        .stats-area {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 0;
+            right: 0;
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
         .stat-box {
-            background: rgba(93, 64, 55, 0.9);
-            border: 3px solid #3d251e;
-            padding: 5px 15px;
+            background: rgba(93, 64, 55, 0.95);
+            border: 4px solid #3d251e;
+            padding: 8px 20px;
             color: #f4e4bc;
-            font-size: 1.8rem;
-            box-shadow: 4px 4px 0px #000;
+            font-size: 2rem;
+            box-shadow: 5px 5px 0px #000;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
+        .dia-box { border-color: #1a237e; background: rgba(40, 53, 147, 0.9); }
 
-        /* MENU NÚT GỖ BÊN PHẢI */
+        /* NHÓM NÚT BẤM GỖ GÓC PHẢI DƯỚI */
         .menu-options {
             position: absolute;
-            bottom: 40px;
-            right: 20px;
+            bottom: 0;
+            right: 0;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
-        .wood-btn {
-            width: 180px;
-            height: 55px;
+        .wood-button {
+            width: 220px;
+            height: 65px;
             background: #8d6e63;
             border: 4px solid #5d4037;
-            border-bottom: 7px solid #2d1b16;
+            border-bottom: 8px solid #2d1b16;
             color: #f4e4bc;
             font-family: 'VT323', monospace;
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
             text-shadow: 2px 2px 0px #000;
             display: flex;
@@ -96,12 +98,12 @@
             align-items: center;
             transition: 0.1s;
         }
-        .wood-btn:hover {
+        .wood-button:hover {
             background: #a1887f;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
-        .wood-btn:active {
-            transform: translateY(4px);
+        .wood-button:active {
+            transform: translateY(5px);
             border-bottom: 2px solid #2d1b16;
         }
     </style>
@@ -109,23 +111,25 @@
 <body>
 
     <div id="lobby-container">
-        <div class="content-box">
+        <div class="content-area">
+            
             <div class="header">
                 <h1>NECESSEGAME SINH TỒN</h1>
                 <p>by HoangKun</p>
             </div>
 
-            <div class="stats-group">
+            <div class="stats-area">
                 <div class="stat-box">GOLD: <span>0</span></div>
-                <div class="stat-box" style="border-color: #1a237e;">💎: <span>0</span></div>
+                <div class="stat-box dia-box">💎: <span>0</span></div>
             </div>
 
             <div class="menu-options">
-                <div class="wood-btn" onclick="alert('Đang tải thế giới...')">CHƠI MỚI</div>
-                <div class="wood-btn">TIẾP TỤC</div>
-                <div class="wood-btn">CÀI ĐẶT</div>
-                <div class="wood-btn" onclick="window.close()">THOÁT</div>
+                <div class="wood-button" onclick="alert('Đang tạo thế giới mới...')">CHƠI MỚI</div>
+                <div class="wood-button">TIẾP TỤC</div>
+                <div class="wood-button">CÀI ĐẶT</div>
+                <div class="wood-button" onclick="window.close()">THOÁT</div>
             </div>
+
         </div>
     </div>
 
