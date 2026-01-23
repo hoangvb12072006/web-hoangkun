@@ -3,57 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberWorld | Trang Chủ Game</title>
+    <title>Cyber Legend | The Future of Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
     <style>
-        /* Gaming Theme Colors */
         :root {
-            --primary-color: #ff0055; /* Neon Pink */
-            --secondary-color: #00f2ff; /* Cyber Blue */
-            --bg-dark: #0a0b10;
-            --card-bg: #161b22;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff0055;
+            --dark-bg: #050505;
+            --card-bg: #121212;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Orbitron', sans-serif; /* Bạn có thể thêm font này từ Google Fonts */
-            background-color: var(--bg-dark); 
-            color: white;
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
             overflow-x: hidden;
         }
 
-        /* Navbar */
+        h1, h2, h3, .logo, nav ul li a {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* --- NAVIGATION --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid var(--primary-color);
+            padding: 20px 5%;
+            background: rgba(0, 0, 0, 0.9);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--secondary-color); }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
 
         nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 30px; }
-        nav ul li a { 
-            text-decoration: none; 
-            color: white; 
-            text-transform: uppercase;
-            font-size: 14px;
+        nav ul li { margin-left: 25px; }
+        nav ul li a {
+            text-decoration: none;
+            color: #ccc;
+            font-size: 13px;
             transition: 0.3s;
         }
-        nav ul li a:hover { color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); }
 
-        /* Hero Section */
+        nav ul li a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.4), var(--bg-dark)),
-                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0,0,0,0.2), var(--dark-bg)),
+                        url('https://images.unsplash.com/photo-1614027126211-175f3363e17f?q=80&w=1920&auto=format&fit=crop'); /* Ảnh phi hành gia/sci-fi ngầu */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -61,114 +77,149 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 0 20px;
         }
 
-        .hero h1 { 
-            font-size: 5rem; 
-            text-transform: uppercase; 
-            margin-bottom: 10px;
-            font-style: italic;
-            -webkit-text-stroke: 1px var(--primary-color);
-            color: transparent;
-            background: linear-gradient(var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--neon-purple);
         }
 
-        .hero p { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 5px; }
-
-        .btn-play {
-            padding: 15px 40px;
+        .hero p {
             font-size: 1.2rem;
-            background: var(--primary-color);
+            color: #ddd;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            max-width: 800px;
+        }
+
+        .btn-main {
+            padding: 18px 50px;
+            background: transparent;
             color: white;
+            border: 2px solid var(--neon-blue);
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            border-radius: 5px;
-            box-shadow: 0 0 20px var(--primary-color);
+            font-family: 'Orbitron';
             transition: 0.4s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-play:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px var(--primary-color);
+        .btn-main:hover {
+            background: var(--neon-blue);
+            box-shadow: 0 0 30px var(--neon-blue);
+            color: #000;
         }
 
-        /* News/Characters Section */
-        .latest-news { padding: 100px 8%; }
-        .latest-news h2 { text-align: center; margin-bottom: 50px; font-size: 2.5rem; border-left: 5px solid var(--secondary-color); padding-left: 15px; }
+        /* --- CONTENT SECTION --- */
+        .content { padding: 80px 5%; }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
 
-        .game-grid {
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--neon-pink);
+            margin: 15px auto;
+        }
+
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
-        .game-card {
+        .card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 5px;
             overflow: hidden;
-            border: 1px solid #333;
-            transition: 0.3s;
+            transition: 0.4s;
+            border: 1px solid #222;
         }
 
-        .game-card img { width: 100%; height: 200px; object-fit: cover; }
-        .game-card-content { padding: 20px; }
-        .game-card h3 { color: var(--secondary-color); margin-bottom: 10px; }
-        .game-card:hover { border-color: var(--secondary-color); transform: translateY(-10px); }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px rgba(188, 19, 254, 0.2);
+        }
 
-        footer { text-align: center; padding: 50px; background: #050505; border-top: 1px solid #222; }
+        .card img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(30%); transition: 0.5s; }
+        .card:hover img { filter: grayscale(0%); }
+
+        .card-info { padding: 25px; }
+        .card-info h3 { color: var(--neon-blue); margin-bottom: 10px; font-size: 1.2rem; }
+        .card-info p { color: #888; font-size: 0.9rem; line-height: 1.5; }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 5%;
+            text-align: center;
+            background: #000;
+            border-top: 1px solid #111;
+            color: #444;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">CYBER WORLD</div>
+        <div class="logo">CYBER LEGEND</div>
         <ul>
-            <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Tướng</a></li>
-            <li><a href="#">Tin tức</a></li>
-            <li><a href="#">Nạp thẻ</a></li>
-            <li><a href="#">Tải Game</a></li>
+            <li><a href="#">TRANG CHỦ</a></li>
+            <li><a href="#">NHÂN VẬT</a></li>
+            <li><a href="#">SỰ KIỆN</a></li>
+            <li><a href="#">CỬA HÀNG</a></li>
         </ul>
     </nav>
 
     <header class="hero">
-        <h1>BEYOND REALITY</h1>
-        <p>CHIẾN ĐẤU HOẶC LÀ CHẾT</p>
-        <a href="#" class="btn-play">Chơi ngay miễn phí</a>
+        <h1>UNLEASH POWER</h1>
+        <p>KHÁM PHÁ THẾ GIỚI MỞ VỚI ĐỒ HỌA ĐỈNH CAO</p>
+        <a href="#" class="btn-main">VÀO GAME NGAY</a>
     </header>
 
-    <section class="latest-news">
-        <h2>TIN MỚI NHẤT</h2>
-        <div class="game-grid">
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80" alt="News 1">
-                <div class="game-card-content">
-                    <h3>Cập nhật phiên bản 2.0</h3>
-                    <p>Khám phá bản đồ sa mạc mới và hệ thống vũ khí tối tân.</p>
+    <main class="content">
+        <h2 class="section-title">BẢN TIN CHIẾN TRƯỜNG</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop" alt="News 1">
+                <div class="card-info">
+                    <h3>GIẢI ĐẤU QUỐC TẾ</h3>
+                    <p>Cuộc tranh tài của những huyền thoại sắp bắt đầu. Đăng ký ngay để nhận vé mời VIP.</p>
                 </div>
             </div>
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="News 2">
-                <div class="game-card-content">
-                    <h3>Giải đấu vô địch thế giới</h3>
-                    <p>Đăng ký ngay để nhận giải thưởng lên đến 1 tỷ đồng.</p>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop" alt="News 2">
+                <div class="card-info">
+                    <h3>VŨ KHÍ TỐI TÂN</h3>
+                    <p>Cập nhật kho vũ khí Laser mới với sức công phá kinh hoàng. Thử ngay tại phòng tập.</p>
                 </div>
             </div>
-            <div class="game-card">
-                <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&w=500&q=80" alt="News 3">
-                <div class="game-card-content">
-                    <h3>Tướng mới: Shadow</h3>
-                    <p>Kẻ ẩn mình trong bóng tối với kỹ năng ám sát kinh hoàng.</p>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=800&auto=format&fit=crop" alt="News 3">
+                <div class="card-info">
+                    <h3>SKIN GIỚI HẠN</h3>
+                    <p>Bộ trang phục "Bóng Ma Neon" chỉ xuất hiện duy nhất trong tuần này. Đừng bỏ lỡ!</p>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <footer>
-        <p>&copy; 2024 CYBERWORLD STUDIO. All Rights Reserved.</p>
+        <p>&copy; 2026 CYBER LEGEND STUDIO. ĐÃ ĐĂNG KÝ BẢN QUYỀN.</p>
     </footer>
 
 </body>
