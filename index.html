@@ -3,217 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Shooter | Skin & Gold</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <title>NecesseGame Sinhton by HoangKun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --neon-blue: #00f2ff; 
-            --neon-purple: #bc13fe; 
-            --neon-pink: #ff0055; 
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-green: #39ff14;
             --neon-gold: #ffcf00;
-            --dark-bg: #050505; 
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Orbitron', sans-serif; background-color: var(--dark-bg); color: #fff; overflow: hidden; }
-
-        /* --- HOME --- */
-        #homepage { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            background: linear-gradient(rgba(0,0,0,0.7), var(--dark-bg)), url('https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=1920&auto=format&fit=crop') center/cover; 
+            --dark-bg: #1a2a3a; /* Nền tối hơn chút cho pixel art */
+            --button-bg: #2d455c;
+            --text-color: #e0e0e0;
+            --pixel-font: 'Press Start 2P', cursive;
+            --modern-font: 'Orbitron', sans-serif;
         }
 
-        /* --- LOBBY & SKIN SHOP --- */
-        #lobby {
-            display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center;
-            background: radial-gradient(circle, #1a1a2e 0%, #050505 100%);
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--pixel-font);
+            background: linear-gradient(to bottom, #101820 0%, #203040 100%); /* Nền chuyển màu đậm chất game */
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
-        .stats-bar { position: absolute; top: 20px; right: 20px; color: var(--neon-gold); font-size: 20px; text-shadow: 0 0 10px var(--neon-gold); }
-        
-        .skin-container { display: flex; gap: 20px; margin: 30px 0; }
-        .skin-card {
-            border: 2px solid #333; padding: 20px; border-radius: 10px; cursor: pointer;
-            transition: 0.3s; text-align: center; background: rgba(255,255,255,0.05);
-        }
-        .skin-card.active { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); background: rgba(0, 242, 255, 0.1); }
-        .skin-card:hover { transform: translateY(-5px); }
-        
-        .ship-icon { width: 40px; height: 40px; margin: 10px auto; }
 
-        /* --- BUTTONS --- */
-        .btn-main { 
-            padding: 15px 40px; background: transparent; color: white; border: 2px solid var(--neon-blue); 
-            cursor: pointer; transition: 0.4s; font-family: 'Orbitron'; letter-spacing: 2px;
+        .game-lobby-container {
+            width: 1000px; /* Chiều rộng lớn hơn để giống hình */
+            height: 700px; /* Chiều cao */
+            background: url('https://i.imgur.com/uR1jWqT.png') no-repeat center center/cover; /* Ảnh nền pixel art làng */
+            border: 5px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.5), inset 0 0 15px rgba(0, 242, 255, 0.3);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
         }
-        .btn-main:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 20px var(--neon-blue); }
 
-        /* --- GAME --- */
-        #game-container { display: none; height: 100vh; flex-direction: column; align-items: center; justify-content: center; background: #000; }
-        canvas { border: 2px solid var(--neon-blue); cursor: none; }
-        .game-ui { position: absolute; top: 20px; width: 100%; text-align: center; pointer-events: none; }
+        .game-title {
+            font-family: var(--modern-font);
+            font-size: 3.5rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px var(--neon-blue), 0 0 5px var(--neon-blue);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-family: var(--modern-font);
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+            margin-top: -15px; /* Kéo lên gần title */
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 100px;
+            right: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-gold);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 207, 0, 0.4);
+            font-family: var(--pixel-font);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .info-panel span {
+            color: var(--neon-gold);
+            text-shadow: 0 0 5px var(--neon-gold);
+        }
+
+        .button-group {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .game-button {
+            width: 200px;
+            padding: 15px 0;
+            background: var(--button-bg);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: var(--pixel-font);
+            font-size: 1rem;
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .game-button:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-blue), 0 0 5px var(--neon-blue);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
 
-    <div id="homepage">
-        <h1 style="font-size: 4rem; color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue);">CYBER STRIKE</h1>
-        <button class="btn-main" onclick="switchToLobby()" style="margin-top: 20px;">KHỞI ĐỘNG PHI THUYỀN</button>
-    </div>
-
-    <div id="lobby">
-        <div class="stats-bar">GOLD: <span id="lobby-gold">0</span></div>
-        <h2 style="color: var(--neon-blue);">CHỌN PHI THUYỀN</h2>
-        
-        <div class="skin-container">
-            <div class="skin-card active" onclick="selectSkin(0, this)">
-                <div class="ship-icon" style="background: var(--neon-blue); clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-                <p>DEFAULT</p>
-                <small>FREE</small>
-            </div>
-            <div class="skin-card" onclick="selectSkin(1, this)">
-                <div class="ship-icon" style="background: var(--neon-purple); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
-                <p>PHANTOM</p>
-                <small>500 GOLD</small>
-            </div>
-            <div class="skin-card" onclick="selectSkin(2, this)">
-                <div class="ship-icon" style="background: var(--neon-gold); clip-path: polygon(50% 0%, 100% 100%, 50% 80%, 0% 100%);"></div>
-                <p>STRIKER</p>
-                <small>1000 GOLD</small>
-            </div>
+    <div class="game-lobby-container">
+        <div>
+            <h1 class="game-title">NECESSEGAME SINHTON</h1>
+            <p class="subtitle">by HoangKun</p>
         </div>
 
-        <button class="btn-main" onclick="switchToGame()">BẮT ĐẦU</button>
-    </div>
-
-    <div id="game-container">
-        <div class="game-ui">
-            <div style="color: var(--neon-blue); font-size: 24px;">SCORE: <span id="score">0</span> | GOLD: <span id="game-gold">0</span></div>
+        <div class="info-panel">
+            💰 GOLD: <span>1500</span> <br>
+            💎 DIAMONDS: <span>50</span>
         </div>
-        <canvas id="gameCanvas"></canvas>
+
+        <div class="button-group">
+            <button class="game-button" onclick="handleButtonClick('Chơi Mới')">CHƠI MỚI</button>
+            <button class="game-button" onclick="handleButtonClick('Tiếp Tục')">TIẾP TỤC</button>
+            <button class="game-button" onclick="handleButtonClick('Cài Đặt')">CÀI ĐẶT</button>
+            <button class="game-button" onclick="handleButtonClick('Thoát Game')">THOÁT GAME</button>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        
-        // Dữ liệu người dùng
-        let gold = parseInt(localStorage.getItem('cyberGold')) || 0;
-        let selectedSkinIndex = 0;
-        const skins = [
-            { color: "#00f2ff", type: 'tri' },
-            { color: "#bc13fe", type: 'diamond' },
-            { color: "#ffcf00", type: 'arrow' }
-        ];
-
-        let score = 0;
-        let gameActive = false;
-        let enemies = [];
-        let bullets = [];
-        let player = { x: 200, y: 500, w: 30, h: 30 };
-
-        function updateGoldDisplay() {
-            document.getElementById('lobby-gold').innerText = gold;
-            document.getElementById('game-gold').innerText = gold;
-            localStorage.setItem('cyberGold', gold);
-        }
-
-        function switchToLobby() {
-            document.getElementById('homepage').style.display = 'none';
-            document.getElementById('lobby').style.display = 'flex';
-            updateGoldDisplay();
-        }
-
-        function selectSkin(index, el) {
-            // Kiểm tra "mua" giả định (Bạn có thể thêm logic trừ tiền ở đây)
-            selectedSkinIndex = index;
-            document.querySelectorAll('.skin-card').forEach(card => card.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function switchToGame() {
-            document.getElementById('lobby').style.display = 'none';
-            document.getElementById('game-container').style.display = 'flex';
-            canvas.width = 400; canvas.height = 600;
-            gameActive = true;
-            animate();
-        }
-
-        window.addEventListener("mousedown", () => {
-            if(gameActive) bullets.push({ x: player.x + player.w/2 - 2, y: player.y, w: 4, h: 15, speed: 8 });
-        });
-
-        canvas.addEventListener("mousemove", (e) => {
-            const rect = canvas.getBoundingClientRect();
-            player.x = e.clientX - rect.left - player.w / 2;
-        });
-
-        function drawPlayer() {
-            const skin = skins[selectedSkinIndex];
-            ctx.fillStyle = skin.color;
-            ctx.shadowBlur = 15; ctx.shadowColor = skin.color;
-            ctx.beginPath();
-            if(skin.type === 'tri') {
-                ctx.moveTo(player.x + player.w/2, player.y);
-                ctx.lineTo(player.x, player.y + player.h);
-                ctx.lineTo(player.x + player.w, player.y + player.h);
-            } else if(skin.type === 'diamond') {
-                ctx.moveTo(player.x + player.w/2, player.y);
-                ctx.lineTo(player.x + player.w, player.y + player.h/2);
-                ctx.lineTo(player.x + player.w/2, player.y + player.h);
-                ctx.lineTo(player.x, player.y + player.h/2);
-            } else {
-                ctx.moveTo(player.x + player.w/2, player.y);
-                ctx.lineTo(player.x + player.w, player.y + player.h);
-                ctx.lineTo(player.x + player.w/2, player.y + player.h*0.8);
-                ctx.lineTo(player.x, player.y + player.h);
-            }
-            ctx.closePath();
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
-
-        function animate() {
-            if (!gameActive) return;
-            ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            bullets.forEach((b, i) => {
-                b.y -= b.speed;
-                ctx.fillStyle = "#fff";
-                ctx.fillRect(b.x, b.y, b.w, b.h);
-                if (b.y < 0) bullets.splice(i, 1);
-            });
-
-            if (Math.random() < 0.04) {
-                enemies.push({ x: Math.random()*(canvas.width-30), y: -40, size: 30, speed: 3 });
-            }
-
-            enemies.forEach((en, eIdx) => {
-                en.y += en.speed;
-                ctx.fillStyle = "#ff0055";
-                ctx.fillRect(en.x, en.y, en.size, en.size);
-
-                bullets.forEach((b, bIdx) => {
-                    if (b.x < en.x + en.size && b.x + b.w > en.x && b.y < en.y + en.size && b.y + b.h > en.y) {
-                        enemies.splice(eIdx, 1);
-                        bullets.splice(bIdx, 1);
-                        score += 10;
-                        gold += 5; // Mỗi lần bắn trúng được 5 vàng
-                        document.getElementById('score').innerText = score;
-                        updateGoldDisplay();
-                    }
-                });
-
-                if (player.x < en.x + en.size && player.x + player.w > en.x && player.y < en.y + en.size && player.y + player.h > en.y) {
-                    gameActive = false;
-                    alert("GAME OVER! GOLD KIẾM ĐƯỢC: " + score/2);
-                    location.reload();
-                }
-                if (en.y > canvas.height) enemies.splice(eIdx, 1);
-            });
-
-            drawPlayer();
-            requestAnimationFrame(animate);
+        function handleButtonClick(action) {
+            alert(`Bạn đã chọn: ${action}`);
+            // Ở đây, bạn sẽ thêm logic thực tế cho mỗi nút
+            // Ví dụ:
+            // if (action === 'Chơi Mới') {
+            //     // Khởi tạo game mới
+            // } else if (action === 'Tiếp Tục') {
+            //     // Load game đã lưu
+            // }
         }
     </script>
 </body>
