@@ -3,224 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Legend | The Future of Gaming</title>
+    <title>Cyber Legend | Game & Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --neon-blue: #00f2ff;
             --neon-purple: #bc13fe;
-            --neon-pink: #ff0055;
             --dark-bg: #050505;
-            --card-bg: #121212;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        h1, .logo, .btn-main { font-family: 'Orbitron', sans-serif; }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--dark-bg);
-            color: #fff;
-            overflow-x: hidden;
-        }
+        /* --- GIAO DIỆN TRANG CHỦ --- */
+        #homepage { transition: opacity 0.5s ease; }
 
-        h1, h2, h3, .logo, nav ul li a {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* --- NAVIGATION --- */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background: rgba(0, 0, 0, 0.9);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background: rgba(0, 0, 0, 0.9);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
+        .logo { font-size: 24px; font-weight: 900; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 25px; }
-        nav ul li a {
-            text-decoration: none;
-            color: #ccc;
-            font-size: 13px;
-            transition: 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--neon-blue);
-            text-shadow: 0 0 8px var(--neon-blue);
-        }
-
-        /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.2), var(--dark-bg)),
-                        url('https://images.unsplash.com/photo-1614027126211-175f3363e17f?q=80&w=1920&auto=format&fit=crop'); /* Ảnh phi hành gia/sci-fi ngầu */
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
+            background: linear-gradient(rgba(0,0,0,0.4), var(--dark-bg)),
+                        url('https://images.unsplash.com/photo-1614027126211-175f3363e17f?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px var(--neon-purple);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #ddd;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
-            max-width: 800px;
-        }
+        .hero h1 { font-size: clamp(2rem, 8vw, 5rem); text-shadow: 0 0 20px var(--neon-purple); margin-bottom: 20px; }
 
         .btn-main {
-            padding: 18px 50px;
-            background: transparent;
-            color: white;
-            border: 2px solid var(--neon-blue);
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-family: 'Orbitron';
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
+            padding: 18px 50px; background: transparent; color: white;
+            border: 2px solid var(--neon-blue); text-decoration: none;
+            font-weight: bold; cursor: pointer; transition: 0.4s;
         }
 
-        .btn-main:hover {
-            background: var(--neon-blue);
-            box-shadow: 0 0 30px var(--neon-blue);
-            color: #000;
+        .btn-main:hover { background: var(--neon-blue); box-shadow: 0 0 30px var(--neon-blue); color: #000; }
+
+        /* --- GIAO DIỆN GAME --- */
+        #game-container {
+            display: none; /* Mặc định ẩn */
+            flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; background: #000;
         }
 
-        /* --- CONTENT SECTION --- */
-        .content { padding: 80px 5%; }
+        canvas { border: 2px solid var(--neon-purple); box-shadow: 0 0 20px var(--neon-purple); background: #000; max-width: 90vw; }
         
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            text-align: center;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--neon-pink);
-            margin: 15px auto;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 5px;
-            overflow: hidden;
-            transition: 0.4s;
-            border: 1px solid #222;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-purple);
-            box-shadow: 0 10px 30px rgba(188, 19, 254, 0.2);
-        }
-
-        .card img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(30%); transition: 0.5s; }
-        .card:hover img { filter: grayscale(0%); }
-
-        .card-info { padding: 25px; }
-        .card-info h3 { color: var(--neon-blue); margin-bottom: 10px; font-size: 1.2rem; }
-        .card-info p { color: #888; font-size: 0.9rem; line-height: 1.5; }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 60px 5%;
-            text-align: center;
-            background: #000;
-            border-top: 1px solid #111;
-            color: #444;
-            font-size: 0.8rem;
-        }
+        .game-ui { margin-bottom: 15px; text-align: center; }
+        .btn-exit { margin-top: 15px; padding: 10px 20px; background: #333; color: #fff; border: none; cursor: pointer; font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">CYBER LEGEND</div>
-        <ul>
-            <li><a href="#">TRANG CHỦ</a></li>
-            <li><a href="#">NHÂN VẬT</a></li>
-            <li><a href="#">SỰ KIỆN</a></li>
-            <li><a href="#">CỬA HÀNG</a></li>
-        </ul>
-    </nav>
+    <div id="homepage">
+        <nav>
+            <div class="logo">CYBER LEGEND</div>
+        </nav>
 
-    <header class="hero">
-        <h1>UNLEASH POWER</h1>
-        <p>KHÁM PHÁ THẾ GIỚI MỞ VỚI ĐỒ HỌA ĐỈNH CAO</p>
-        <a href="#" class="btn-main">VÀO GAME NGAY</a>
-    </header>
+        <header class="hero">
+            <h1>UNLEASH POWER</h1>
+            <p style="margin-bottom: 40px; letter-spacing: 2px;">BẤM NÚT DƯỚI ĐỂ BẮT ĐẦU TRẢI NGHIỆM</p>
+            <button class="btn-main" onclick="switchToGame()">VÀO GAME NGAY</button>
+        </header>
+    </div>
 
-    <main class="content">
-        <h2 class="section-title">BẢN TIN CHIẾN TRƯỜNG</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop" alt="News 1">
-                <div class="card-info">
-                    <h3>GIẢI ĐẤU QUỐC TẾ</h3>
-                    <p>Cuộc tranh tài của những huyền thoại sắp bắt đầu. Đăng ký ngay để nhận vé mời VIP.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop" alt="News 2">
-                <div class="card-info">
-                    <h3>VŨ KHÍ TỐI TÂN</h3>
-                    <p>Cập nhật kho vũ khí Laser mới với sức công phá kinh hoàng. Thử ngay tại phòng tập.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=800&auto=format&fit=crop" alt="News 3">
-                <div class="card-info">
-                    <h3>SKIN GIỚI HẠN</h3>
-                    <p>Bộ trang phục "Bóng Ma Neon" chỉ xuất hiện duy nhất trong tuần này. Đừng bỏ lỡ!</p>
-                </div>
-            </div>
+    <div id="game-container">
+        <div class="game-ui">
+            <h2 style="color: var(--neon-blue); font-family: 'Orbitron';">CYBER DODGE</h2>
+            <p>Điểm: <span id="score">0</span></p>
         </div>
-    </main>
+        <canvas id="gameCanvas"></canvas>
+        <button class="btn-exit" onclick="location.reload()">THOÁT RA TRANG CHỦ</button>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 CYBER LEGEND STUDIO. ĐÃ ĐĂNG KÝ BẢN QUYỀN.</p>
-    </footer>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        let score = 0;
+        let gameActive = false;
+        let enemies = [];
+        let player = { x: 190, y: 460, width: 25, height: 25 };
 
+        function switchToGame() {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('game-container').style.display = 'flex';
+            canvas.width = 400;
+            canvas.height = 500;
+            gameActive = true;
+            initGame();
+        }
+
+        // Điều khiển chuột/cảm ứng
+        canvas.addEventListener("mousemove", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            player.x = e.clientX - rect.left - player.width / 2;
+        });
+
+        function initGame() {
+            if (!gameActive) return;
+
+            // Xử lý Logic
+            if (Math.random() < 0.05) {
+                enemies.push({
+                    x: Math.random() * (canvas.width - 30),
+                    y: -30,
+                    size: Math.random() * 20 + 15,
+                    speed: Math.random() * 3 + 2
+                });
+            }
+
+            for (let i = 0; i < enemies.length; i++) {
+                enemies[i].y += enemies[i].speed;
+                // Check va chạm
+                if (player.x < enemies[i].x + enemies[i].size &&
+                    player.x + player.width > enemies[i].x &&
+                    player.y < enemies[i].y + enemies[i].size &&
+                    player.y + player.height > enemies[i].size) {
+                    alert("GAME OVER! Điểm: " + score);
+                    location.reload();
+                }
+                // Tính điểm
+                if (enemies[i].y > canvas.height) {
+                    enemies.splice(i, 1);
+                    score++;
+                    document.getElementById("score").innerText = score;
+                }
+            }
+
+            // Vẽ đồ họa
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Vẽ người chơi
+            ctx.fillStyle = "#00f2ff";
+            ctx.shadowBlur = 15; ctx.shadowColor = "#00f2ff";
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Vẽ địch
+            ctx.fillStyle = "#ff0055";
+            ctx.shadowBlur = 10; ctx.shadowColor = "#ff0055";
+            enemies.forEach(e => ctx.fillRect(e.x, e.y, e.size, e.size));
+
+            requestAnimationFrame(initGame);
+        }
+    </script>
 </body>
 </html>
