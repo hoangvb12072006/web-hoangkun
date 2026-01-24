@@ -1,95 +1,75 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Necesse Sinh Tồn - Gameplay</title>
+    <title>Necesse Game - Gameplay</title>
     <style>
-        body { margin: 0; overflow: hidden; background: #222; font-family: Arial, sans-serif; }
-        canvas { display: block; background: #3e5d39; margin: 0 auto; }
-        .ui-top { position: absolute; top: 10px; left: 10px; color: white; text-shadow: 2px 2px black; }
+        body { margin: 0; background: #3e5d39; overflow: hidden; color: white; font-family: 'Courier New', Courier, monospace; }
+        canvas { display: block; image-rendering: pixelated; }
+        .ui { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="ui-top">
-        <h3 id="displayNames">NHÂN VẬT: ĐANG TẢI...</h3>
-        <p>Dùng WASD hoặc Mũi tên để di chuyển</p>
-        <a href="index.html" style="color: #ffeb3b; text-decoration: none;">[ THOÁT RA SẢNH ]</a>
+    <div class="ui">
+        <div id="nameDisplay">NGƯỜI CHƠI: ...</div>
+        <a href="index.html" style="color: #ffcc00; text-decoration: none;">[ THOÁT ]</a>
     </div>
-
     <canvas id="gameCanvas"></canvas>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-
-        // Thiết lập kích thước màn hình
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Lấy tên từ sảnh (nếu có dùng localStorage)
-        const charName = localStorage.getItem('charName') || "HoangKun";
-        document.getElementById('displayNames').innerText = "NHÂN VẬT: " + charName;
+        // Lấy tên nhân vật từ Sảnh
+        document.getElementById('nameDisplay').innerText = "NGƯỜI CHƠI: " + (localStorage.getItem('charName') || "HoangKun");
 
-        // Tải hình ảnh (Bạn thay link bằng link ảnh thật trên GitHub của bạn nhé)
-        const playerImg = new Image();
-        playerImg.src = 'link_anh_nhan_vat_cua_ban.png'; 
+        // KHAI BÁO ẢNH - Bạn hãy đổi tên file cho đúng với file bạn đã up lên GitHub
+        const imgPlayer = new Image();
+        imgPlayer.src = 'nhan-vat.png'; // Đổi thành tên file nhân vật của bạn
 
-        const grassImg = new Image();
-        grassImg.src = 'link_anh_co_cua_ban.png';
-
-        const treeImg = new Image();
-        treeImg.src = 'link_anh_cay_cua_ban.png';
+        const imgGrass = new Image();
+        imgGrass.src = 'co.png'; // Đổi thành tên file nền cỏ của bạn
 
         // Tọa độ nhân vật
-        let player = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            speed: 5,
-            width: 64,
-            height: 64
-        };
-
-        // Xử lý phím bấm
+        let p = { x: canvas.width/2, y: canvas.height/2, speed: 5, frameX: 0, frameY: 0 };
         let keys = {};
-        window.addEventListener('keydown', e => keys[e.code] = true);
-        window.addEventListener('keyup', e => keys[e.code] = false);
+
+        window.onkeydown = (e) => keys[e.code] = true;
+        window.onkeyup = (e) => keys[e.code] = false;
 
         function update() {
-            if (keys['KeyW'] || keys['ArrowUp']) player.y -= player.speed;
-            if (keys['KeyS'] || keys['ArrowDown']) player.y += player.speed;
-            if (keys['KeyA'] || keys['ArrowLeft']) player.x -= player.speed;
-            if (keys['KeyD'] || keys['ArrowRight']) player.x += player.speed;
+            if (keys['ArrowUp'] || keys['KeyW']) { p.y -= p.speed; p.frameY = 1; }
+            if (keys['ArrowDown'] || keys['KeyS']) { p.y += p.speed; p.frameY = 0; }
+            if (keys['ArrowLeft'] || keys['KeyA']) { p.x -= p.speed; p.frameY = 2; }
+            if (keys['ArrowRight'] || keys['KeyD']) { p.x += p.speed; p.frameY = 3; }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Vẽ nền cỏ (Lặp lại)
-            for (let i = 0; i < canvas.width; i += 100) {
-                for (let j = 0; j < canvas.height; j += 100) {
-                    ctx.drawImage(grassImg, i, j, 100, 100);
+            // 1. Vẽ nền cỏ lặp lại
+            if (imgGrass.complete) {
+                for(let x=0; x<canvas.width; x+=100) {
+                    for(let y=0; y<canvas.height; y+=100) {
+                        ctx.drawImage(imgGrass, x, y, 100, 100);
+                    }
                 }
             }
 
-            // 2. Vẽ cây trang trí
-            ctx.drawImage(treeImg, 100, 100, 120, 120);
-            ctx.drawImage(treeImg, 400, 200, 120, 120);
+            // 2. Vẽ nhân vật (Cắt từ tấm Sprite bạn gửi)
+            if (imgPlayer.complete) {
+                // Cắt khung hình 48x48 từ tấm ảnh to
+                ctx.drawImage(imgPlayer, p.frameX * 48, p.frameY * 48, 48, 48, p.x, p.y, 64, 64);
+            }
 
-            // 3. Vẽ nhân vật (Lấy một frame trong spritesheet của bạn)
-            // ctx.drawImage(playerImg, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-            ctx.drawImage(playerImg, 0, 0, 48, 48, player.x, player.y, player.width, player.height);
-
-            requestAnimationFrame(() => {
-                update();
-                draw();
-            });
+            update();
+            requestAnimationFrame(draw);
         }
 
-        // Đợi ảnh tải xong rồi mới vẽ
-        playerImg.onload = grassImg.onload = treeImg.onload = () => {
-            draw();
-        };
+        // Bắt đầu game
+        draw();
     </script>
 </body>
 </html>
-
