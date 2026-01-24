@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Necesse Sinh Tồn - Gameplay</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #222; font-family: Arial, sans-serif; }
+        canvas { display: block; background: #3e5d39; margin: 0 auto; }
+        .ui-top { position: absolute; top: 10px; left: 10px; color: white; text-shadow: 2px 2px black; }
+    </style>
+</head>
+<body>
+    <div class="ui-top">
+        <h3 id="displayNames">NHÂN VẬT: ĐANG TẢI...</h3>
+        <p>Dùng WASD hoặc Mũi tên để di chuyển</p>
+        <a href="index.html" style="color: #ffeb3b; text-decoration: none;">[ THOÁT RA SẢNH ]</a>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Thiết lập kích thước màn hình
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Lấy tên từ sảnh (nếu có dùng localStorage)
+        const charName = localStorage.getItem('charName') || "HoangKun";
+        document.getElementById('displayNames').innerText = "NHÂN VẬT: " + charName;
+
+        // Tải hình ảnh (Bạn thay link bằng link ảnh thật trên GitHub của bạn nhé)
+        const playerImg = new Image();
+        playerImg.src = 'link_anh_nhan_vat_cua_ban.png'; 
+
+        const grassImg = new Image();
+        grassImg.src = 'link_anh_co_cua_ban.png';
+
+        const treeImg = new Image();
+        treeImg.src = 'link_anh_cay_cua_ban.png';
+
+        // Tọa độ nhân vật
+        let player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            speed: 5,
+            width: 64,
+            height: 64
+        };
+
+        // Xử lý phím bấm
+        let keys = {};
+        window.addEventListener('keydown', e => keys[e.code] = true);
+        window.addEventListener('keyup', e => keys[e.code] = false);
+
+        function update() {
+            if (keys['KeyW'] || keys['ArrowUp']) player.y -= player.speed;
+            if (keys['KeyS'] || keys['ArrowDown']) player.y += player.speed;
+            if (keys['KeyA'] || keys['ArrowLeft']) player.x -= player.speed;
+            if (keys['KeyD'] || keys['ArrowRight']) player.x += player.speed;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Vẽ nền cỏ (Lặp lại)
+            for (let i = 0; i < canvas.width; i += 100) {
+                for (let j = 0; j < canvas.height; j += 100) {
+                    ctx.drawImage(grassImg, i, j, 100, 100);
+                }
+            }
+
+            // 2. Vẽ cây trang trí
+            ctx.drawImage(treeImg, 100, 100, 120, 120);
+            ctx.drawImage(treeImg, 400, 200, 120, 120);
+
+            // 3. Vẽ nhân vật (Lấy một frame trong spritesheet của bạn)
+            // ctx.drawImage(playerImg, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+            ctx.drawImage(playerImg, 0, 0, 48, 48, player.x, player.y, player.width, player.height);
+
+            requestAnimationFrame(() => {
+                update();
+                draw();
+            });
+        }
+
+        // Đợi ảnh tải xong rồi mới vẽ
+        playerImg.onload = grassImg.onload = treeImg.onload = () => {
+            draw();
+        };
+    </script>
+</body>
+</html>
 
