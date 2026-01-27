@@ -329,12 +329,13 @@
         <p style="font-family: 'Press Start 2P'; font-size: 0.6rem; color: #fbbf24;">CHIẾN BINH:</p>
         <p id="displayName" style="font-family: 'Press Start 2P'; font-size: 1rem; color: #fff; margin-top: 5px;">TÂN THỦ</p>
         
-        <div style="width: 100%; background: #1a1a1a; height: 10px; border: 2px solid #000; margin-top: 10px; position: relative;">
-            <div id="xp-bar" style="width: 35%; background: #3b82f6; height: 100%;"></div>
-            <span style="font-family: 'Press Start 2P'; font-size: 6px; color: #fff; position: absolute; top: -12px; left: 0;">LV.1 350/1000</span>
-        </div>
-    </div>
-
+        <div style="width: 100%; background: #1a1a1a; height: 12px; border: 2px solid #000; margin-top: 15px; position: relative; box-shadow: 2px 2px 0 #000;">
+    <div id="xp-bar" style="width: 0%; background: linear-gradient(to right, #3b82f6, #60a5fa); height: 100%; transition: width 0.5s ease-in-out;"></div>
+    
+    <span style="font-family: 'Press Start 2P'; font-size: 7px; color: #fff; position: absolute; top: -12px; left: 0; text-shadow: 1px 1px 0 #000;">
+        LV.<span id="lvl-display">1</span> <span id="xp-text" style="font-size: 6px; color: #fbbf24; margin-left: 5px;">0/100 XP</span>
+    </span>
+</div>
     <div class="status-blink" style="text-align: left; min-width: 120px;">
         <p style="font-family: 'Press Start 2P'; font-size: 0.6rem; color: #4ade80;">TRẠNG THÁI:</p>
         <p style="font-family: 'Press Start 2P'; font-size: 0.8rem; color: #fff; margin-top: 5px;">🔥 ĐANG NGHỈ</p>
@@ -535,6 +536,31 @@ function startGame() {
             }, 600);
         }
     }, 50);
+}
+        // Khởi tạo các giá trị ban đầu cho nhân vật
+let currentXP = 0;
+let currentLevel = 1;
+let xpNextLevel = 100;
+
+// Hàm xử lý nhận kinh nghiệm và lên cấp
+function gainXP(amount) {
+    currentXP += amount;
+    if (currentXP >= xpNextLevel) {
+        currentXP -= xpNextLevel;
+        currentLevel++;
+        xpNextLevel = Math.floor(xpNextLevel * 1.5);
+        alert("CHÚC MỪNG! BẠN ĐÃ LÊN CẤP " + currentLevel);
+    }
+    
+    // Cập nhật giao diện
+    const xpPercent = (currentXP / xpNextLevel) * 100;
+    const bar = document.getElementById('xp-bar');
+    const lvlText = document.getElementById('lvl-display');
+    const xpText = document.getElementById('xp-text');
+    
+    if(bar) bar.style.width = xpPercent + '%';
+    if(lvlText) lvlText.innerText = currentLevel;
+    if(xpText) xpText.innerText = currentXP + "/" + xpNextLevel + " XP";
 }
 </script>
         
