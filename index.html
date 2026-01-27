@@ -500,18 +500,24 @@ let progress = 0;
         let textIdx = Math.floor((progress / 101) * statusTexts.length);
         loadingText.innerText = `${statusTexts[textIdx]} [${Math.floor(progress)}%]`;
 
-      if (progress >= 100) {
+     if (progress >= 100) {
             clearInterval(timer);
             setTimeout(() => {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('landing-page').style.display = 'none';
-                // Hiện màn hình đen để nhập tên trước khi vào sảnh
-                document.getElementById('char-creator').style.display = 'flex';
+                
+                // HIỆN BẢNG ĐIỀU KHIỂN (Đây chính là Sảnh 2 của ông)
+                document.getElementById('game-dashboard').style.display = 'block';
+                
+                // Tạo hiệu ứng tuyết rơi cho đẹp
                 createSnow();
+                
+                // Cập nhật tên nhân vật
+                const nameInput = document.getElementById('userInput');
+                const displayName = document.getElementById('displayName');
+                displayName.innerText = nameInput.value.trim() !== "" ? nameInput.value.toUpperCase() : "HOANG KUN";
             }, 500);
-        }
-    }, 50);
-}
+        }
     // Hàm mở kho đồ
 function openInv() {
     playClick();
