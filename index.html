@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Quest - Necesse Adventure</title>
+    <title>Pixel Quest - New Adventure</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -12,217 +12,169 @@
             --primary: #ff4b6b;
             --secondary: #38bdf8;
             --bg-dark: #0f172a;
-            --panel: rgba(30, 41, 59, 0.95);
-            --shadow: #000000;
+            --panel: rgba(15, 23, 42, 0.9);
         }
-
-        * { box-sizing: border-box; }
 
         body {
-            margin: 0;
+            margin: 0; padding: 0;
             font-family: 'Pixelify Sans', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), 
-                              url('https://wallpaperaccess.com/full/3591276.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: white;
-            image-rendering: pixelated;
-            overflow-x: hidden;
-            transition: background 1s;
+            background: var(--bg-dark);
+            /* Ảnh nền rừng Pixel Necesse chất lượng cao */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                              url('https://i.redd.it/pixel-art-forest-background-v0-x1v59y2l16bb1.png?width=1280&format=png&auto=webp&s=84992497645f061956637e174066922378997a34');
+            background-size: cover; background-attachment: fixed;
+            color: white; image-rendering: pixelated; overflow-x: hidden;
         }
 
-        /* --- PHẦN 1: TRANG GIỚI THIỆU (GIỮ NGUYÊN STYLE CỦA BẠN) --- */
-        #landing-page {
-            transition: opacity 0.5s ease-out;
-        }
+        /* --- LANDING PAGE --- */
+        #landing-page { transition: 0.6s ease; text-align: center; padding-bottom: 100px; }
 
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; background: rgba(15, 23, 42, 0.95);
-            border-bottom: 4px solid var(--primary);
-            position: sticky; top: 0; z-index: 100;
+            padding: 20px 8%; background: rgba(0,0,0,0.8); border-bottom: 4px solid var(--primary);
         }
 
-        .logo { font-family: 'Press Start 2P'; color: var(--primary); text-decoration: none; font-size: 1.2rem; text-shadow: 3px 3px 0 #000; }
-
-        .hero { text-align: center; padding: 120px 20px; }
+        .hero { padding: 100px 20px; }
         .hero h1 {
-            font-family: 'Press Start 2P'; font-size: 3.5rem; color: var(--primary);
-            letter-spacing: 5px; text-shadow: 6px 6px 0px #000, 0 0 20px rgba(255, 75, 107, 0.4);
+            font-family: 'Press Start 2P'; font-size: 3rem; color: var(--primary);
+            text-shadow: 6px 6px 0px #000; margin-bottom: 40px;
             animation: float 3s ease-in-out infinite;
+        }
+
+        /* Ô nhập tên nhân vật */
+        .input-group { margin-bottom: 30px; }
+        .input-group input {
+            font-family: 'Press Start 2P'; padding: 20px; font-size: 0.8rem;
+            border: 4px solid var(--secondary); background: #1e293b; color: white;
+            width: 350px; text-align: center; outline: none; box-shadow: 6px 6px 0 #000;
         }
 
         .btn-play {
             font-family: 'Press Start 2P'; background: var(--primary); color: white;
-            padding: 25px 50px; border: none; font-size: 1.1rem; cursor: pointer;
-            box-shadow: 6px 6px 0 var(--shadow); transition: all 0.2s; position: relative; overflow: hidden;
+            padding: 25px 60px; border: none; cursor: pointer;
+            box-shadow: 6px 6px 0 #000; transition: 0.2s;
         }
-        .btn-play:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 0 30px var(--primary); }
-        .btn-play:active { transform: scale(0.95); filter: brightness(1.5); }
-        .btn-play::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        .btn-play:hover::before { left: 150%; }
+        .btn-play:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary); }
 
-        /* --- PHẦN 2: DASHBOARD GAME (THÊM MỚI) --- */
-        #game-interface {
-            display: none; /* Ẩn lúc đầu */
-            padding: 40px 8%;
-            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        /* --- DASHBOARD --- */
+        #game-dashboard { display: none; padding: 40px 8%; animation: fadeIn 1s; }
 
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: 280px 1fr 300px;
-            gap: 20px;
+        .dashboard-grid {
+            display: grid; grid-template-columns: 280px 1fr 300px; gap: 20px;
         }
 
         .pixel-card {
-            background: var(--panel);
-            border: 4px solid #334155;
-            padding: 25px;
+            background: var(--panel); border: 4px solid #334155; padding: 20px;
             box-shadow: 8px 8px 0 #000;
         }
 
         .stat-bar {
-            height: 20px; background: #1e293b; border: 2px solid #000;
+            height: 20px; background: #334155; border: 2px solid #000;
             margin-bottom: 15px; position: relative;
         }
-        .hp-fill { background: #ff4b6b; width: 85%; height: 100%; transition: 0.5s; }
-        .mp-fill { background: #38bdf8; width: 60%; height: 100%; transition: 0.5s; }
-        
-        .nav-link {
+        .fill-hp { background: #ff4b6b; width: 20%; height: 100%; } /* HP thấp lúc đầu */
+        .fill-mp { background: #38bdf8; width: 0%; height: 100%; }   /* MP về 0 */
+
+        .nav-item {
             display: block; width: 100%; padding: 15px; margin-bottom: 10px;
             background: #1e293b; border: 2px solid transparent; color: white;
-            font-family: 'Press Start 2P'; font-size: 0.6rem; text-decoration: none; cursor: pointer;
+            font-family: 'Press Start 2P'; font-size: 0.6rem; text-align: left; cursor: pointer;
         }
-        .nav-link:hover { border-color: var(--secondary); color: var(--secondary); transform: translateX(5px); }
+        .nav-item:hover { border-color: var(--secondary); color: var(--secondary); }
 
-        .map-view {
-            height: 350px; background: rgba(0,0,0,0.5); border: 2px dashed #475569;
-            display: flex; align-items: center; justify-content: center; flex-direction: column;
-        }
-
-        /* --- ANIMATIONS --- */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .hidden { display: none !important; }
-
-        footer { text-align: center; padding: 50px; background: rgba(0,0,0,0.8); border-top: 4px solid var(--primary); }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
         <header>
-            <a href="#" class="logo">PIXEL QUEST</a>
-            <nav style="font-family: 'Press Start 2P'; font-size: 0.7rem;">
-                <a href="#" style="color:white; text-decoration:none; margin-left: 20px;">WIKI</a>
-                <a href="#" style="color:white; text-decoration:none; margin-left: 20px;">DISCORD</a>
-            </nav>
+            <div style="font-family:'Press Start 2P'; color:var(--primary);">PIXEL QUEST</div>
+            <div style="font-family:'Press Start 2P'; font-size:0.7rem;">WIKI | DISCORD</div>
         </header>
 
         <div class="hero">
             <h1>KHÁM PHÁ<br>THẾ GIỚI PIXEL</h1>
-            <p>Hành trình sinh tồn, xây dựng và chinh phục đang chờ đợi bạn.</p>
-            <button class="btn-play" onclick="switchToGame()">
-                CHƠI NGAY <i class="fas fa-play" style="margin-left: 10px;"></i>
+            
+            <div class="input-group">
+                <input type="text" id="nameInput" placeholder="NHẬP TÊN NHÂN VẬT..." maxlength="12">
+            </div>
+
+            <button class="btn-play" onclick="enterGame()">
+                CHƠI NGAY <i class="fas fa-gamepad"></i>
             </button>
         </div>
+    </div>
 
-        <div class="content">
-            <h2 style="font-family: 'Press Start 2P'; color: var(--secondary); text-shadow: 4px 4px 0 #000; margin-bottom: 60px; text-align: center;">TÍNH NĂNG CHÍNH</h2>
-            <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 0 8%;">
-                <div class="pixel-card" style="text-align: center;">
-                    <i class="fas fa-hammer" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
-                    <h3 style="font-family: 'Press Start 2P'; font-size: 0.9rem;">CHẾ TẠO</h3>
-                    <p>Hơn 1000 công thức chế tạo vũ khí.</p>
+    <div id="game-dashboard">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 style="font-family:'Press Start 2P'; color:var(--secondary);">DASHBOARD CHỦ</h2>
+            <div style="display:flex; gap:20px;">
+                <div class="stat-bar" style="width:150px;"><div class="fill-hp"></div><span style="position:absolute; top:2px; left:35%; font-size:10px; font-family:'Press Start 2P'">HP</span></div>
+                <div class="stat-bar" style="width:150px;"><div class="fill-mp"></div><span style="position:absolute; top:2px; left:35%; font-size:10px; font-family:'Press Start 2P'">MP</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="pixel-card" style="text-align:center;">
+                <i class="fas fa-user-ninja fa-4x" style="color:var(--primary); margin-bottom:15px;"></i>
+                <h3 id="charName" style="font-family:'Press Start 2P'; font-size:0.9rem; color:white;">PLAYER</h3>
+                <p style="color:#fbbf24; font-family:'Press Start 2P'; font-size:0.7rem;">CẤP ĐỘ 0</p>
+                <div style="margin-top:30px;">
+                    <button class="nav-item"><i class="fas fa-map-marked-alt"></i> BẢN ĐỒ</button>
+                    <button class="nav-item"><i class="fas fa-briefcase"></i> TÚI ĐỒ</button>
+                    <button class="nav-item" onclick="location.reload()" style="color:var(--primary); border-color:var(--primary);"><i class="fas fa-sign-out-alt"></i> THOÁT</button>
                 </div>
-                <div class="pixel-card" style="text-align: center;">
-                    <i class="fas fa-ghost" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
-                    <h3 style="font-family: 'Press Start 2P'; font-size: 0.9rem;">BOSS</h3>
-                    <p>Đối đầu với quái vật khổng lồ.</p>
+            </div>
+
+            <div class="pixel-card">
+                <h3 style="font-family:'Press Start 2P'; font-size:0.9rem; margin-top:0;">VÙNG ĐẤT MỚI</h3>
+                <div style="height:350px; background:rgba(0,0,0,0.5); border:2px dashed #475569; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                    <i class="fas fa-lock fa-3x" style="color:#475569; margin-bottom:20px;"></i>
+                    <p style="text-align:center;">BẠN CẦN ĐẠT CẤP ĐỘ 1<br>ĐỂ MỞ KHÓA KHU VỰC NÀY</p>
+                    <button class="btn-play" style="padding:15px 30px; font-size:0.7rem; margin-top:20px;">NHẬN NHIỆM VỤ</button>
                 </div>
+            </div>
+
+            <div class="pixel-card">
+                <h3 style="font-family:'Press Start 2P'; font-size:0.8rem; color:var(--primary);">HỆ THỐNG</h3>
+                <p style="font-size:0.85rem; border-bottom:1px solid #334155; padding-bottom:10px;">Chào mừng tân thủ gia nhập thế giới!</p>
+                <h3 style="font-family:'Press Start 2P'; font-size:0.8rem; color:var(--secondary); margin-top:20px;">BẠN BÈ</h3>
+                <p style="color:#94a3b8;"><i class="fas fa-circle" style="color:#475569; font-size:10px;"></i> Chưa có ai online</p>
             </div>
         </div>
     </div>
-
-    <div id="game-interface">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="font-family: 'Press Start 2P'; color: var(--secondary); margin: 0;">DASHBOARD TRANG CHỦ</h2>
-            <div style="display: flex; gap: 20px;">
-                <div class="stat-bar"><div class="hp-fill"></div><span style="position:absolute; top:3px; left:5px; font-size:10px; font-family:'Press Start 2P'">HP</span></div>
-                <div class="stat-bar"><div class="mp-fill"></div><span style="position:absolute; top:3px; left:5px; font-size:10px; font-family:'Press Start 2P'">MP</span></div>
-            </div>
-        </div>
-
-        <div class="dashboard-container">
-            <div class="pixel-card">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <i class="fas fa-user-ninja fa-4x" style="color: var(--primary);"></i>
-                    <p style="font-family: 'Press Start 2P'; font-size: 0.8rem; margin-top: 15px;">HOANG_KUN</p>
-                    <p style="color: #fbbf24; font-size: 0.9rem;">CẤP ĐỘ 24</p>
-                </div>
-                <button class="nav-link"><i class="fas fa-compass"></i> KHÁM PHÁ</button>
-                <button class="nav-link"><i class="fas fa-box"></i> TÚI ĐỒ</button>
-                <button class="nav-link"><i class="fas fa-users"></i> BẠN BÈ</button>
-                <button class="nav-link" onclick="location.reload()" style="color: var(--primary); border-color: var(--primary);"><i class="fas fa-door-open"></i> ĐĂNG XUẤT</button>
-            </div>
-
-            <div class="pixel-card">
-                <h3 style="font-family: 'Press Start 2P'; font-size: 1rem; margin-top: 0; color: var(--secondary);">KHU VỰC THÁM HIỂM</h3>
-                <div class="map-view">
-                    <i class="fas fa-mountain fa-4x" style="color: #475569; margin-bottom: 20px;"></i>
-                    <p style="font-family: 'Press Start 2P'; font-size: 0.8rem;">VÙNG NÚI TUYẾT</p>
-                    <button class="btn-play" style="padding: 15px 30px; font-size: 0.8rem; margin-top: 20px;">SĂN BOSS NGAY</button>
-                </div>
-            </div>
-
-            <div class="pixel-card">
-                <h3 style="font-family: 'Press Start 2P'; font-size: 0.8rem; color: var(--primary);">TIN TỨC</h3>
-                <p style="font-size: 0.85rem; color: #cbd5e1;">- Sự kiện x2 EXP còn 2 giờ!</p>
-                <p style="font-size: 0.85rem; color: #cbd5e1;">- Cập nhật phiên bản 1.5.0.</p>
-                <hr style="border: 1px solid #334155; margin: 20px 0;">
-                <h3 style="font-family: 'Press Start 2P'; font-size: 0.8rem; color: var(--secondary);">ĐANG ONLINE</h3>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <div style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%;"></div>
-                    <span>Gemini_AI</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 PIXEL QUEST STUDIO. MỌI QUYỀN ĐƯỢC BẢO LƯU.</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        function switchToGame() {
-            // 1. Hiệu ứng pháo hoa
+        function enterGame() {
+            const nameInput = document.getElementById('nameInput').value;
+            const charName = document.getElementById('charName');
+            
+            // Nếu người dùng không nhập tên, lấy mặc định
+            charName.innerText = nameInput.trim() !== "" ? nameInput.toUpperCase() : "TÂN THỦ";
+
+            // Hiệu ứng pháo hoa chúc mừng
             confetti({
-                particleCount: 150,
+                particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff4b6b', '#38bdf8', '#ffffff']
+                colors: ['#ff4b6b', '#38bdf8']
             });
 
-            // 2. Chuyển cảnh
+            // Chuyển cảnh từ từ
             const landing = document.getElementById('landing-page');
-            const game = document.getElementById('game-interface');
+            const dashboard = document.getElementById('game-dashboard');
 
             landing.style.opacity = '0';
-            
             setTimeout(() => {
                 landing.classList.add('hidden');
-                game.style.display = 'block';
-                // Đổi nền tối hơn cho Dashboard
-                document.body.style.backgroundImage = "linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://wallpaperaccess.com/full/3591276.png')";
+                dashboard.style.display = 'block';
+                // Đổi ảnh nền mờ hơn để nhìn Dashboard rõ hơn
+                document.body.style.backgroundImage = "linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://i.redd.it/pixel-art-forest-background-v0-x1v59y2l16bb1.png?width=1280&format=png&auto=webp&s=84992497645f061956637e174066922378997a34')";
             }, 500);
         }
     </script>
