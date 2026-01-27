@@ -311,42 +311,89 @@
     </div>
 </footer>
   
-        <div id="game-dashboard" style="display: none; padding: 60px 8%; text-align: center; min-height: 100vh;">
-    <div style="background: var(--panel); border: 4px solid var(--secondary); padding: 40px; box-shadow: 12px 12px 0 var(--shadow); display: inline-block; width: 100%; max-width: 900px;">
+      <div id="game-dashboard" style="display: none; padding: 40px 5%; text-align: center; min-height: 100vh;">
+    <div style="background: #4a3728; border: 8px solid #2d1e12; padding: 30px; box-shadow: 15px 15px 0 rgba(0,0,0,0.4); display: inline-block; width: 100%; max-width: 800px; border-radius: 4px;">
         
-        <h1 style="font-family: 'Press Start 2P'; color: var(--secondary); font-size: 1.8rem; margin-bottom: 20px;">
-            HỆ THỐNG ĐÃ KẾT NỐI
+        <h1 style="font-family: 'Press Start 2P'; color: #facc15; font-size: 1.5rem; text-shadow: 3px 3px 0 #000; margin-bottom: 30px;">
+             KHU CẮM TRẠI
         </h1>
 
-        <div style="background: rgba(0,0,0,0.5); padding: 20px; border-left: 8px solid var(--primary); margin-bottom: 30px; text-align: left;">
-            <p style="font-family: 'Press Start 2P'; font-size: 0.9rem; color: white; margin: 0;">
-                TRẠNG THÁI: <span style="color: #4ade80;">ONLINE</span>
-            </p>
-            <p style="font-family: 'Press Start 2P'; font-size: 0.9rem; color: white; margin-top: 15px;">
-                CHIẾN BINH: <span id="displayName" style="color: var(--primary);">TÂN THỦ</span>
-            </p>
+        <div style="background: #2d1e12; padding: 15px; border: 4px solid #facc15; margin-bottom: 30px; display: flex; justify-content: space-around; align-items: center;">
+            <div style="text-align: left;">
+                <p style="font-family: 'Press Start 2P'; font-size: 0.6rem; color: #fbbf24;">CHIẾN BINH:</p>
+                <p id="displayName" style="font-family: 'Press Start 2P'; font-size: 1rem; color: #fff; margin-top: 5px;">TÂN THỦ</p>
+            </div>
+            <div style="text-align: left;">
+                <p style="font-family: 'Press Start 2P'; font-size: 0.6rem; color: #4ade80;">TRẠNG THÁI:</p>
+                <p style="font-family: 'Press Start 2P'; font-size: 0.8rem; color: #fff; margin-top: 5px;">SẴN SÀNG</p>
+            </div>
         </div>
 
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
-            <div class="card" style="padding: 20px; cursor: pointer;">
-                <i class="fas fa-play-circle" style="font-size: 2rem; color: var(--secondary);"></i>
-                <h3 style="font-size: 0.8rem; margin-top: 15px;">VÀO TRẬN</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+            <div class="pixel-btn" style="background: #166534; border: 4px solid #4ade80; padding: 20px; cursor: pointer;">
+                <i class="fas fa-hammer" style="font-size: 2rem; color: #fff;"></i>
+                <h3 style="font-family: 'Press Start 2P'; font-size: 0.7rem; color: #fff; margin-top: 10px;">VÀO TRẬN</h3>
             </div>
-            <div class="card" style="padding: 20px; cursor: pointer;">
-                <i class="fas fa-box" style="font-size: 2rem; color: var(--primary);"></i>
-                <h3 style="font-size: 0.8rem; margin-top: 15px;">KHO ĐỒ</h3>
+            <div class="pixel-btn" style="background: #854d0e; border: 4px solid #fbbf24; padding: 20px; cursor: pointer;">
+                <i class="fas fa-box-open" style="font-size: 2rem; color: #fff;"></i>
+                <h3 style="font-family: 'Press Start 2P'; font-size: 0.7rem; color: #fff; margin-top: 10px;">KHO ĐỒ</h3>
             </div>
-            <div class="card" style="padding: 20px; cursor: pointer;">
-                <i class="fas fa-trophy" style="font-size: 2rem; color: #fbbf24;"></i>
-                <h3 style="font-size: 0.8rem; margin-top: 15px;">XẾP HẠNG</h3>
-            </div>
-            <div class="card" style="padding: 20px; cursor: pointer; border-color: #ef4444;" onclick="location.reload()">
-                <i class="fas fa-power-off" style="font-size: 2rem; color: #ef4444;"></i>
-                <h3 style="font-size: 0.8rem; margin-top: 15px; color: #ef4444;">THOÁT</h3>
+            <div class="pixel-btn" style="background: #991b1b; border: 4px solid #f87171; padding: 20px; cursor: pointer;" onclick="location.reload()">
+                <i class="fas fa-sign-out-alt" style="font-size: 2rem; color: #fff;"></i>
+                <h3 style="font-family: 'Press Start 2P'; font-size: 0.7rem; color: #fff; margin-top: 10px;">THOÁT</h3>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .pixel-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+</style>
+    <script>
+function startGame() {
+    const loading = document.getElementById('loading-screen');
+    const loadBar = document.getElementById('load-bar');
+    const loadingText = document.getElementById('loading-text');
+    const landingPage = document.getElementById('landing-page');
+    const dashboard = document.getElementById('game-dashboard');
+
+    // 1. Hiện màn hình loading
+    loading.style.display = 'flex';
+    
+    // 2. Hiệu ứng dấu chấm chạy . .. ...
+    let dots = 0;
+    const dotInterval = setInterval(() => {
+        dots = (dots + 1) % 4;
+        loadingText.innerText = "ĐANG KẾT NỐI SERVER" + ".".repeat(dots);
+    }, 400);
+
+    // 3. Chạy thanh tiến trình
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 2.5; 
+        if (progress > 100) progress = 100;
+        loadBar.style.width = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(interval);
+            clearInterval(dotInterval);
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                if(landingPage) landingPage.style.display = 'none'; // Ẩn trang chủ
+                if(dashboard) dashboard.style.display = 'block';   // Hiện sảnh gỗ
+                
+                // Lấy tên từ ô input dán vào bảng gỗ
+                const userIn = document.getElementById('userInput');
+                const nameShow = document.getElementById('displayName');
+                if(userIn && nameShow) {
+                    nameShow.innerText = userIn.value.trim() !== "" ? userIn.value.toUpperCase() : "TÂN THỦ";
+                }
+            }, 600);
+        }
+    }, 50);
+}
+</script>
     <script>
 function startGame() {
     const loading = document.getElementById('loading-screen');
