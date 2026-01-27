@@ -500,22 +500,25 @@ let progress = 0;
         let textIdx = Math.floor((progress / 101) * statusTexts.length);
         loadingText.innerText = `${statusTexts[textIdx]} [${Math.floor(progress)}%]`;
 
-    if (progress >= 100) {
+   if (progress >= 100) {
         clearInterval(timer);
         
-        // Hiện chữ "ĐANG KẾT NỐI SERVER"
-        const loadingTextHeader = document.querySelector('#loading-screen h2');
-        if(loadingTextHeader) loadingTextHeader.innerText = "ĐANG KẾT NỐI SERVER...";
-
+        // 1. Đổi chữ tiêu đề thành ĐANG KẾT NỐI SERVER
+        const loadingHeader = document.querySelector('#loading-screen h2');
+        if (loadingHeader) loadingHeader.innerText = "ĐANG KẾT NỐI SERVER...";
+        
+        // 2. Đợi 1.5 giây cho người chơi nhìn thấy chữ rồi mới vào sảnh
         setTimeout(() => {
-            // Ẩn màn hình chờ
+            // Ẩn màn hình load
             document.getElementById('loading-screen').style.display = 'none';
             document.getElementById('landing-page').style.display = 'none';
             
-            // Hiện Sảnh 2 và căn giữa
+            // Hiện sảnh Dashboard và căn giữa
             const dashboard = document.getElementById('game-dashboard');
             dashboard.style.display = 'flex';
-            
+            dashboard.style.justifyContent = 'center';
+            dashboard.style.alignItems = 'center';
+
             createSnow();
 
             // Cập nhật tên
@@ -524,7 +527,7 @@ let progress = 0;
             if(displayName && nameInput) {
                 displayName.innerText = nameInput.value.trim() !== "" ? nameInput.value.toUpperCase() : "HOANG KUN";
             }
-        }, 1500); // Đợi 1.5 giây cho "phê"
+        }, 1500); // Khoảng thời gian chờ để hiện chữ "Kết nối Server"
     }
     // Hàm mở kho đồ
 function openInv() {
