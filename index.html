@@ -500,22 +500,27 @@ let progress = 0;
         let textIdx = Math.floor((progress / 101) * statusTexts.length);
         loadingText.innerText = `${statusTexts[textIdx]} [${Math.floor(progress)}%]`;
 
-     if (progress >= 100) {
+    if (progress >= 100) {
             clearInterval(timer);
             setTimeout(() => {
+                // Ẩn màn hình load và trang chủ
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('landing-page').style.display = 'none';
                 
-                // HIỆN BẢNG ĐIỀU KHIỂN (Đây chính là Sảnh 2 của ông)
-                document.getElementById('game-dashboard').style.display = 'block';
+                // HIỆN SẢNH 2 (Bảng điều khiển) - Dùng flex để căn giữa
+                const dashboard = document.getElementById('game-dashboard');
+                dashboard.style.display = 'flex';
+                dashboard.style.justifyContent = 'center';
+                dashboard.style.alignItems = 'center';
                 
-                // Tạo hiệu ứng tuyết rơi cho đẹp
                 createSnow();
-                
-                // Cập nhật tên nhân vật
+
+                // Cập nhật tên
                 const nameInput = document.getElementById('userInput');
                 const displayName = document.getElementById('displayName');
-                displayName.innerText = nameInput.value.trim() !== "" ? nameInput.value.toUpperCase() : "HOANG KUN";
+                if(displayName && nameInput) {
+                    displayName.innerText = nameInput.value.trim() !== "" ? nameInput.value.toUpperCase() : "HOANG KUN";
+                }
             }, 500);
         }
     // Hàm mở kho đồ
