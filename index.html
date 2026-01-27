@@ -453,6 +453,42 @@
 </div>
 
 <script>
+function openInv() {
+    const invScreen = document.getElementById('inventory-screen');
+    const invItems = document.getElementById('inv-items');
+    
+    // Hiện cái bảng lên
+    invScreen.style.display = 'flex';
+    
+    // Nạp dữ liệu "0 đồng" vào hòm
+    invItems.innerHTML = `
+        <div style="background: rgba(0,0,0,0.5); padding: 10px; border: 2px solid #facc15; border-radius: 5px; text-align: center;">
+            <i class="fas fa-coins" style="color: #facc15; font-size: 1.2rem;"></i>
+            <p style="margin: 5px 0; font-size: 0.5rem;">VÀNG</p>
+            <span>${gold}</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.5); padding: 10px; border: 2px solid #38bdf8; border-radius: 5px; text-align: center;">
+            <i class="fas fa-gem" style="color: #38bdf8; font-size: 1.2rem;"></i>
+            <p style="margin: 5px 0; font-size: 0.5rem;">KIM CƯƠNG</p>
+            <span>${diamonds}</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.5); padding: 10px; border: 2px solid #94a3b8; border-radius: 5px; text-align: center;">
+            <i class="fas fa-mountain" style="color: #94a3b8; font-size: 1.2rem;"></i>
+            <p style="margin: 5px 0; font-size: 0.5rem;">ĐÁ</p>
+            <span>${stone}</span>
+        </div>
+        <div style="background: rgba(0,0,0,0.5); padding: 10px; border: 2px solid #fb923c; border-radius: 5px; text-align: center;">
+            <i class="fas fa-tree" style="color: #fb923c; font-size: 1.2rem;"></i>
+            <p style="margin: 5px 0; font-size: 0.5rem;">GỖ</p>
+            <span>${wood}</span>
+        </div>
+    `;
+}
+
+function closeInv() {
+    document.getElementById('inventory-screen').style.display = 'none';
+}
+    
 let gold = 0, diamonds = 0, stone = 0, wood = 0;
 
 function createSnow() {
