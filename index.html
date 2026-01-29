@@ -502,17 +502,25 @@ function startGame() {
     }, 100);
 }
 
-// Hàm quản lý kho đồ duy nhất
+// Khai báo biến (Nếu bạn đã khai báo ở đầu file rồi thì thôi, nếu chưa thì phải có dòng này)
+var gold = gold || 0, diamonds = diamonds || 0, stone = stone || 0, wood = wood || 0;
+
 function openInv() {
     playClick();
     const invItems = document.getElementById('inv-items');
-    invItems.innerHTML = `
-        <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #fb923c; display:flex; justify-content:space-between; margin-bottom:5px;"><span>🪵 GỖ:</span> <span>${wood}</span></div>
-        <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #94a3b8; display:flex; justify-content:space-between; margin-bottom:5px;"><span>🪨 ĐÁ:</span> <span>${stone}</span></div>
-        <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #facc15; display:flex; justify-content:space-between; margin-bottom:5px;"><span>💰 VÀNG:</span> <span>${gold}</span></div>
-        <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #38bdf8; display:flex; justify-content:space-between;"><span>💎 KIM CƯƠNG:</span> <span>${diamonds}</span></div>
-    `;
-    document.getElementById('inventory-screen').style.display = 'flex';
+    const invScreen = document.getElementById('inventory-screen');
+    
+    if (invItems && invScreen) {
+        invItems.innerHTML = `
+            <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #fb923c; display:flex; justify-content:space-between; margin-bottom:5px;"><span>🪵 GỖ:</span> <span>${wood}</span></div>
+            <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #94a3b8; display:flex; justify-content:space-between; margin-bottom:5px;"><span>🪨 ĐÁ:</span> <span>${stone}</span></div>
+            <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #facc15; display:flex; justify-content:space-between; margin-bottom:5px;"><span>💰 VÀNG:</span> <span>${gold}</span></div>
+            <div style="background:rgba(0,0,0,0.5); padding:10px; border:2px solid #38bdf8; display:flex; justify-content:space-between;"><span>💎 KIM CƯƠNG:</span> <span>${diamonds}</span></div>
+        `;
+        invScreen.style.display = 'flex';
+    } else {
+        console.error("Thiếu ID inv-items hoặc inventory-screen trong HTML!");
+    }
 }
 
 function closeInv() { playClick(); document.getElementById('inventory-screen').style.display = 'none'; }
