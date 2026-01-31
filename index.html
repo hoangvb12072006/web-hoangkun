@@ -5,126 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnimeGlass - Premium Mirrors</title>
     <style>
+        /* 1. RESET & NỀN TẢNG */
         :root {
-            --bg-color: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --accent-color: #ffffff;
-            --text-dim: #a0a0a0;
-            --transition: all 0.3s ease;
+            --bg: #0a0a0a;
+            --card-bg: #151515;
+            --accent: #ffffff;
+            --glow-color: rgba(255, 255, 255, 0.15);
+            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            padding: 0;
+            background-color: var(--bg);
             color: white;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* --- Navigation --- */
+        /* 2. NAVIGATION */
         nav {
+            width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 20px 5%;
-            align-items: center;
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(10px);
+            padding: 25px 8%;
+            box-sizing: border-box;
             position: fixed;
-            width: 90%;
-            z-index: 100;
+            top: 0;
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo { font-size: 24px; font-weight: bold; cursor: pointer; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; margin: 0 15px; transition: var(--transition); }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+        .nav-links a { color: #888; text-decoration: none; margin-left: 30px; transition: 0.3s; font-size: 14px; }
         .nav-links a:hover { color: white; }
-        .btn-login { background: white; color: black; padding: 8px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; }
 
-        /* --- Hero Section --- */
-        .hero {
+        /* 3. HERO SECTION */
+        .container {
+            margin-top: 150px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 120px 10% 60px;
-            min-height: 80vh;
+            gap: 100px;
+            padding: 0 10%;
+            max-width: 1200px;
         }
 
-        .hero-content { max-width: 500px; }
-        .hero-content h1 { font-size: 3rem; margin-bottom: 20px; }
-        .hero-content p { color: var(--text-dim); line-height: 1.6; margin-bottom: 30px; }
+        .hero-text h1 {
+            font-size: 4rem;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff 40%, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        .stats { display: flex; gap: 30px; margin-bottom: 30px; }
-        .stat-item h3 { margin: 0; font-size: 1.5rem; }
-        .stat-item p { margin: 5px 0; font-size: 0.8rem; }
+        .hero-text p {
+            color: #888;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            max-width: 450px;
+        }
 
-        .btn-explore {
-            padding: 15px 30px;
+        /* 4. HIỆU ỨNG CARD GƯƠNG (QUAN TRỌNG NHẤT) */
+        .mirror-wrapper {
+            perspective: 1000px; /* Tạo không gian 3D */
+        }
+
+        .mirror-card {
+            width: 380px;
+            height: 520px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Lớp ánh sáng khi di chuột (Shine) */
+        .mirror-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: 0.7s;
+            z-index: 2;
+        }
+
+        .mirror-card:hover::before {
+            left: 150%;
+        }
+
+        .mirror-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+            filter: brightness(0.8);
+        }
+
+        .mirror-card:hover img {
+            filter: brightness(1.1);
+            transform: scale(1.05);
+        }
+
+        /* Nội dung hiện lên trên gương */
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            z-index: 3;
+            transform: translateZ(50px); /* Đẩy chữ nổi lên mặt gương */
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .mirror-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        /* 5. NÚT BẤM CÓ HIỆU ỨNG GLOW */
+        .btn-glow {
+            padding: 15px 35px;
             background: white;
             color: black;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn-explore:hover { transform: scale(1.05); }
-
-        /* --- Mirror Card Effect --- */
-        .mirror-card {
-            width: 350px;
-            height: 450px;
-            background: #222;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
-            transition: var(--transition);
-        }
-        .mirror-card:hover { box-shadow: 0 0 50px rgba(255,255,255,0.2); transform: translateY(-10px); }
-        .mirror-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-
-        /* --- Modal (Cửa sổ Order/Login) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none; /* Ẩn mặc định */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            text-align: center;
-        }
-
-        .modal h2 { margin-bottom: 25px; }
-        .modal input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 8px;
-            color: white;
-            box-sizing: border-box;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background: white;
+            border-radius: 50px;
             border: none;
-            border-radius: 8px;
-            margin-top: 20px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
         }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+            background: #f0f0f0;
+        }
+
     </style>
 </head>
 <body>
@@ -132,63 +167,55 @@
     <nav>
         <div class="logo">AnimeGlass</div>
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Products</a>
-            <a href="#">About</a>
+            <a href="#">Bộ sưu tập</a>
+            <a href="#">Về chúng tôi</a>
+            <a href="#">Liên hệ</a>
+            <a href="#" style="border: 1px solid #333; padding: 8px 20px; border-radius: 20px;">Đăng nhập</a>
         </div>
-        <button class="btn-login" onclick="toggleModal('loginModal')">Login</button>
     </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Premium Anime Mirrors</h1>
-            <p>Biến không gian của bạn trở nên đẳng cấp với bộ sưu tập gương nhân vật anime cao cấp. Mỗi tấm gương là một tác phẩm nghệ thuật.</p>
-            
-            <div class="stats">
-                <div class="stat-item"><h3>500+</h3><p>Khách hàng</p></div>
-                <div class="stat-item"><h3>50+</h3><p>Mẫu thiết kế</p></div>
-                <div class="stat-item"><h3>24h</h3><p>Giao hàng nhanh</p></div>
+    <div class="container">
+        <div class="hero-text">
+            <h1>Premium<br>Anime Mirrors</h1>
+            <p>Nâng cấp không gian sống với những mẫu gương nhân vật Anime sắc nét, hiệu ứng phản chiếu cao cấp và thiết kế tối giản.</p>
+            <br>
+            <button class="btn-glow">Khám phá ngay</button>
+        </div>
+
+        <div class="mirror-wrapper">
+            <div class="mirror-card" id="card">
+                <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=2070&auto=format&fit=crop" alt="Anime Mirror">
+                
+                <div class="card-overlay">
+                    <h2 style="margin:0">Berserk Edition</h2>
+                    <p style="color: #ccc; font-size: 14px;">Limited Mirror • $199</p>
+                    <button style="background:transparent; border:1px solid white; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;">Xem chi tiết</button>
+                </div>
             </div>
-
-            <a href="#" class="btn-explore" onclick="toggleModal('orderModal')">Explore Collection</a>
-        </div>
-
-        <div class="mirror-card">
-            <img src="https://via.placeholder.com/350x450/000000/FFFFFF?text=Berserk+Mirror" alt="Anime Mirror">
-        </div>
-    </section>
-
-    <div class="modal-overlay" id="loginModal" onclick="closeModal(event)">
-        <div class="modal">
-            <h2>Login / Sign Up</h2>
-            <input type="email" placeholder="Email Address">
-            <input type="password" placeholder="Password">
-            <button class="btn-submit">Login</button>
-            <p style="font-size: 12px; color: var(--text-dim); margin-top: 15px;">Don't have an account? Sign up</p>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="orderModal" onclick="closeModal(event)">
-        <div class="modal">
-            <h2>Order Your Mirror</h2>
-            <input type="text" placeholder="Full Name">
-            <input type="text" placeholder="Phone Number">
-            <input type="text" placeholder="City">
-            <textarea placeholder="Full Address" style="width:100%; height:80px; background:#2a2a2a; border-radius:8px; border:1px solid #444; color:white; padding:10px; box-sizing:border-box; margin-top:10px;"></textarea>
-            <button class="btn-submit">Confirm Order</button>
         </div>
     </div>
 
     <script>
-        function toggleModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
+        // HIỆU ỨNG NGHIÊNG 3D THEO CHUỘT (PARALLAX)
+        const card = document.getElementById('card');
+        const container = document.querySelector('.mirror-wrapper');
 
-        function closeModal(event) {
-            if (event.target.className === 'modal-overlay') {
-                event.target.style.display = 'none';
-            }
-        }
+        container.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 25; // Độ nghiêng X
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 25; // Độ nghiêng Y
+            
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Trả về vị trí cũ khi bỏ chuột ra
+        container.addEventListener('mouseenter', (e) => {
+            card.style.transition = "none";
+        });
+
+        container.addEventListener('mouseleave', (e) => {
+            card.style.transition = "all 0.5s ease";
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
     </script>
 
 </body>
