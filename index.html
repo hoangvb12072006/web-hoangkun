@@ -399,6 +399,24 @@
         .p-1 { padding: 10px; } .p-2 { padding: 20px; } .p-3 { padding: 30px; }
         /* Thêm hiệu ứng đặc biệt cho chữ */
         .glow-text { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        /* Giao diện bảng giải thích chi tiết */
+.info-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 11000; opacity: 0; pointer-events: none; transition: 0.4s;
+}
+.info-overlay.active { opacity: 1; pointer-events: auto; }
+.info-box {
+    background: #1a1a1a; padding: 40px; border-radius: 20px;
+    border: 1px solid #00f2fe; box-shadow: 0 0 30px #00f2fe;
+    max-width: 500px; width: 90%; text-align: center;
+    transform: scale(0.8); transition: 0.4s;
+}
+.info-overlay.active .info-box { transform: scale(1); }
+.info-box h3 { color: #00f2fe; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; }
+.info-box p { color: #ccc; line-height: 1.6; margin-bottom: 30px; }
     </style>
 </head>
 <body>
@@ -460,28 +478,31 @@
    <section id="gallery">
     <h2 class="section-title">Phòng Trưng Bày Digital</h2>
     <div class="gallery-container">
-        <div class="gallery-card">
+<div class="gallery-card" onclick="showDetail('VŨ TRỤ SỐ', 'Khám phá ranh giới giữa thực và ảo thông qua công nghệ VR/AR hiện đại nhất. Đây là không gian nơi mọi giới hạn vật lý bị phá bỏ.')">
             <img src="https://picsum.photos/id/10/500/800" alt="Cyber 1">
             <div class="card-overlay">
                 <h3>Vũ Trụ Số</h3>
                 <p>Khám phá ranh giới giữa thực và ảo.</p>
             </div>
         </div>
-        <div class="gallery-card">
+
+        <div class="gallery-card" onclick="showDetail('NEON CITY', 'Thành phố không ngủ với những ánh đèn Neon rực rỡ. Đây là biểu tượng của kỷ nguyên Cyberpunk, nơi công nghệ hòa quyện vào đời sống.')">
             <img src="https://picsum.photos/id/20/500/800" alt="Cyber 2">
             <div class="card-overlay">
                 <h3>Neon City</h3>
                 <p>Ánh sáng rực rỡ từ những tòa nhà chọc trời.</p>
             </div>
         </div>
-        <div class="gallery-card">
+
+        <div class="gallery-card" onclick="showDetail('TRÍ TUỆ NHÂN TẠO', 'AI không chỉ là công cụ, mà là tương lai. Chúng tôi ứng dụng các thuật toán thông minh nhất để tạo ra sự sáng tạo không giới hạn.')">
             <img src="https://picsum.photos/id/30/500/800" alt="Cyber 3">
             <div class="card-overlay">
                 <h3>Trí Tuệ Nhân Tạo</h3>
                 <p>Kỷ nguyên mới của sự sáng tạo không giới hạn.</p>
             </div>
         </div>
-        <div class="gallery-card">
+
+        <div class="gallery-card" onclick="showDetail('KẾT NỐI TOÀN CẦU', 'Xóa tan mọi khoảng cách địa lý bằng sức mạnh của Internet tốc độ cao. Kết nối hàng triệu con người trong một mạng lưới vạn vật.')">
             <img src="https://picsum.photos/id/40/500/800" alt="Cyber 4">
             <div class="card-overlay">
                 <h3>Kết Nối Toàn Cầu</h3>
@@ -570,6 +591,29 @@ window.closeNotice = function(btn) {
     el.style.top = "-100px"; el.style.opacity = "0";
     setTimeout(() => { el.remove(); }, 500);
 };
+
+        // Đoạn này để hiện cái bảng giải thích khi bấm vào ảnh
+const overlay = document.createElement('div');
+overlay.className = 'info-overlay';
+overlay.innerHTML = `
+    <div class="info-box">
+        <h3 id="info-title"></h3>
+        <p id="info-desc"></p>
+        <button onclick="hideDetail()" style="background:#00f2fe; border:none; color:#000; padding:10px 30px; border-radius:5px; cursor:pointer; font-weight:bold; text-transform:uppercase;">ĐÃ HIỂU</button>
+    </div>
+`;
+document.body.appendChild(overlay);
+
+function showDetail(title, desc) {
+    document.getElementById('info-title').innerText = title;
+    document.getElementById('info-desc').innerText = desc;
+    overlay.classList.add('active');
+}
+
+function hideDetail() {
+    overlay.classList.remove('active');
+}
+        
     </script>
 
       <footer>
