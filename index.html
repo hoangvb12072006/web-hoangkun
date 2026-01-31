@@ -7,6 +7,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
 
+        /* Hiệu ứng thông báo đẹp */
+.success-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 242, 254, 0.9);
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f2fe;
+    font-weight: bold;
+    z-index: 10000;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
 /* Style cho Logo có link */
 .logo-link {
     text-decoration: none;
@@ -569,6 +589,38 @@
     </footer>
 
     <script>
+
+function sendToMess() {
+    const name = document.getElementById('cus_name').value;
+    const email = document.getElementById('cus_email').value;
+    const msg = document.getElementById('cus_msg').value;
+    
+    if(!name || !msg) {
+        alert("Vui lòng nhập tên và tin nhắn nhé!");
+        return;
+    }
+
+    // 1. Hiển thị thông báo đẹp trên màn hình
+    const popup = document.createElement('div');
+    popup.className = 'success-popup';
+    popup.innerHTML = `🚀 Đã gửi phản hồi! Cảm ơn ${name} nhé!`;
+    document.body.appendChild(popup);
+
+    // 2. Tự động xóa thông báo sau 3 giây
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 3000);
+
+    // 3. Chuẩn bị nội dung và mở Messenger
+    const fullMsg = `Chào Hoang Kun, mình là ${name}. Email: ${email}. Nội dung: ${msg}`;
+    const encodedMsg = encodeURIComponent(fullMsg);
+    
+    // Đợi 1 tí cho người ta kịp nhìn thông báo rồi mới nhảy sang Mess
+    setTimeout(() => {
+        window.open(`https://m.me/nvh12072006?text=${encodedMsg}`, '_blank');
+    }, 1000);
+}
+</script>
 
         // Hiệu ứng "tilt" nhẹ cho các card trong gallery khi di chuột vào
 const galleryCards = document.querySelectorAll('.gallery-card');
