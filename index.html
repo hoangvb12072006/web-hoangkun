@@ -512,44 +512,6 @@
     </div>
 </section>
 
-<footer style="text-align: center; padding: 40px 0; border-top: 1px solid #333;">
-    <p>&copy; 2026 Design by HOANG KUN. All rights reserved.</p>
-</footer>
-
-<script>
-function sendToMess() {
-    const name = document.getElementById('cus_name').value;
-    const email = document.getElementById('cus_email').value;
-    const msg = document.getElementById('cus_msg').value;
-    
-    if(!name || !msg) {
-        alert("Vui lòng nhập tên và tin nhắn nhé!");
-        return;
-    }
-
-    const fullMsg = `Chào Hoang Kun, mình là ${name}. Email: ${email}. Nội dung: ${msg}`;
-    const encodedMsg = encodeURIComponent(fullMsg);
-    
-    // Mở Messenger của bạn
-    window.open('https://m.me/nvh12072006?text=' + encodedMsg, '_blank');
-</script>
-
-    <section id="contact">
-        <h2 class="section-title">Kết Nối Với Chúng Tôi</h2>
-        <div class="contact-form">
-            <div class="form-group">
-                <input type="text" placeholder="Tên của bạn">
-            </div>
-            <div class="form-group">
-                <input type="email" placeholder="Email liên lạc">
-            </div>
-            <div class="form-group">
-                <textarea rows="5" placeholder="Tin nhắn của bạn..."></textarea>
-            </div>
-            <button class="main-btn" style="width: 100%;">GỬI TIN NHẮN</button>
-        </div>
-    </section>
-
     <section id="about-intro" style="background: rgba(255,255,255,0.02); padding: 100px 10%;">
     <h2 class="section-title">Chào Mừng Đến Với Thế Giới Số</h2>
     <div style="text-align: center; max-width: 800px; margin: 0 auto;">
@@ -580,6 +542,22 @@ function sendToMess() {
     </div>
 </section>
 
+       <section id="contact">
+        <h2 class="section-title">Kết Nối Với Chúng Tôi</h2>
+        <div class="contact-form">
+            <div class="form-group">
+                <input type="text" placeholder="Tên của bạn">
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Email liên lạc">
+            </div>
+            <div class="form-group">
+                <textarea rows="5" placeholder="Tin nhắn của bạn..."></textarea>
+            </div>
+            <button class="main-btn" style="width: 100%;">GỬI TIN NHẮN</button>
+        </div>
+    </section>
+
       <footer>
         <div class="logo" style="margin-bottom: 20px;">CYBER.VIBE</div>
        <div class="social-icons">
@@ -589,7 +567,6 @@ function sendToMess() {
 </div>
         <p>&copy; 2026 Design by <strong style="color: #00f2fe; cursor: pointer;">HOANG KUN</strong>. All rights reserved.</p>
     </footer>
-
 
     <script>
 
