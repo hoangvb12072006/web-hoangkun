@@ -6,6 +6,23 @@
     <title>Cyber Universe - 600 Lines of Style</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+
+/* Style cho Logo có link */
+.logo-link {
+    text-decoration: none;
+    color: inherit; /* Giữ nguyên màu gốc của logo */
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Hiệu ứng phát sáng khi di chuột vào */
+.logo-link:hover {
+    color: var(--primary-color); /* Đổi sang màu hồng/xanh chủ đạo của bạn */
+    text-shadow: 0 0 10px var(--primary-color), 
+                 0 0 20px var(--primary-color);
+    transform: scale(1.05); /* Phóng to nhẹ một chút cho ngầu */
+}
+        
         /* --- CSS VARIABLES --- */
         :root {
             --primary-color: #00f2fe;
@@ -389,7 +406,9 @@
     <canvas id="canvas-bg"></canvas>
 
     <nav>
-        <div class="logo">CYBER.VIBE</div>
+        <div class="logo">
+    <a href="#" class="logo-link">CYBER.VIBE</a>
+</div>
        <ul class="nav-links">
     <li><a href="#home">Trang Chủ</a></li>
     <li><a href="#services">Dịch Vụ</a></li>
